@@ -25,3 +25,36 @@ read_alignment <- function(path){
   structure(.Data = list(peaks = x2, peak_meta = x1, sample_meta = NA),
             class="msdial_alignment")
 }
+
+
+#' @importFrom utils head
+#' @noRd
+#' @export
+head.msdial_alignment <- function(x,...){
+  head(x$tab)
+}
+
+#' @importFrom utils tail
+#' @noRd
+#' @export
+tail.msdial_alignment <- function(x,...){
+  tail(x$tab)
+}
+
+#' @noRd
+#' @export
+print.msdial_alignment <- function(x, ...){
+  print(x$tab)
+}
+
+#' @noRd
+#' @export
+dim.msdial_alignment <- function(x){
+  dim(x$tab)
+}
+
+#' @noRd
+#' @export
+row.names.msdial_alignment <- function(x){
+  row.names(x$tab)
+}
