@@ -35,10 +35,10 @@ attach_metadata <- function(x, metadata, col){
     warning("The supplied metadata does not include all samples.")
   meta <- keep_order(meta, merge, y = metadata, by = col,
                      all.x = TRUE, all.y = FALSE, sort = FALSE)
-  if (any(!is.na(x$sample_metadata))){
-    x$sample_metadata <- cbind(x$sample_metadata, meta)
+  if (any(!is.na(x$sample_meta))){
+    x$sample_meta <- cbind(x$sample_meta, meta)
   } else{
-    x$sample_metadata <- meta
+    x$sample_meta <- meta
   }
   return(x)
 }

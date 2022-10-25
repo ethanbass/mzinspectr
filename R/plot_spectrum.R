@@ -1,26 +1,4 @@
 
-#' @noRd
-#' @importFrom graphics boxplot
-#' @importFrom stats as.formula
-#' @export
-boxplot.msdial_alignment <- function(x, rows, cols, vars, ...){
-  if (is.null(vars)){
-    stop("Must provide independent variable(s) (`var`) to make a boxplot.")
-  }
-  if (missing(cols)){
-    stop("A peak name must be provided to `loc` to make a boxplot.")
-  }
-  if (missing(rows)){
-    rows <- seq_len(nrow(x[["tab"]]))
-  }
-  for (col in cols){
-    boxplot(as.formula(paste("x[['tab']][rows,col]", vars, sep="~")), data=x$sample_meta[rows,],
-            las=2, ylab='',xlab='',
-            main=paste0("peak ", col, "; rt: ", x$peak_meta["Average.Rt.min.",col],
-                        "; mz: ", x$peak_meta["Quant.mass",col]), ...)
-  }
-}
-
 #' Plot mass spectrum of peak given by \code{col}.
 #' @param x MS dial alignment object
 #' @param col Spectrum to plot
@@ -76,3 +54,25 @@ check_for_pkg <- function(pkg){
   }
 }
 
+
+#' @noRd
+#' @importFrom graphics boxplot
+#' @importFrom stats as.formula
+#' @export
+boxplot.msdial_alignment <- function(x, rows, cols, vars, ...){
+  if (is.null(vars)){
+    stop("Must provide independent variable(s) (`var`) to make a boxplot.")
+  }
+  if (missing(cols)){
+    stop("A peak name must be provided to `loc` to make a boxplot.")
+  }
+  if (missing(rows)){
+    rows <- seq_len(nrow(x[["tab"]]))
+  }
+  for (col in cols){
+    boxplot(as.formula(paste("x[['tab']][rows,col]", vars, sep="~")), data=x$sample_meta[rows,],
+            las=2, ylab='',xlab='',
+            main=paste0("peak ", col, "; rt: ", x$peak_meta["Average.Rt.min.",col],
+                        "; mz: ", x$peak_meta["Quant.mass",col]), ...)
+  }
+}
