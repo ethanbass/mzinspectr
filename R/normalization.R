@@ -69,10 +69,12 @@ pqn <- function(x, n = "median", QC = NULL) {
 #' @param blanks.idx Indices of blank samples
 #' @param blanks.pattern A string that uniquely identifies blank samples by name
 #' @param what Whether to subtract the mean or median value
+#' @param drop Logical. Whether to drop columns containing only zeros. Defaults to TRUE.
 #' @return A \code{msdial_alignment} object with the mean or median of the blanks
 #' subtracted from each peak.
 
-subtract_blanks <- function(x, blanks.idx, blanks.pattern, what=c("mean","median")){
+subtract_blanks <- function(x, blanks.idx, blanks.pattern,
+                            what=c("mean","median"), drop = TRUE){
   if (missing(blanks.idx)){
     if (!missing(blanks.pattern)){
       blanks.idx <- grep(blanks.pattern, x$sample_meta$full.name)
@@ -95,10 +97,12 @@ subtract_blanks <- function(x, blanks.idx, blanks.pattern, what=c("mean","median
   # Round any negative nunbers up to 0
   x.n <- apply(x.n, c(1,2), function(y) max(y,0))
 
-  # filter out 0 columns
-  zeros <- which(colMeans(x.n) == 0)
-  if (length(zeros)>0){
-    x.n <- x.n[,-zeros]
+  # drop 0 columns
+  if (drop){
+    zeros <- which(colMeans(x.n) == 0)
+    if (length(zeros) > 0){
+      x.n <- x.n[,-zeros]
+    }
   }
 
   x$tab <- x.n
