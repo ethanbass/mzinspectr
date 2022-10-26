@@ -4,10 +4,10 @@
 \alias{pqn}
 \title{Probabilistic Quotient Normalization}
 \usage{
-pqn(X, n = "median", QC = NULL)
+pqn(x, n = "median", QC = NULL)
 }
 \arguments{
-\item{X}{matrix to normalize samples * variables (rows * columns)}
+\item{x}{An \code{msdial_alignment} object or matrix with rows as samples and features as columns.}
 
 \item{n}{normalization reference: "mean" for using the overall average of variables as reference
 or "median" (default) for using the overall median of variables as reference}
@@ -16,7 +16,7 @@ or "median" (default) for using the overall median of variables as reference}
 (e.g. QC samples)}
 }
 \value{
-Normalized table samples * variables (rows * columns)
+A normalized \code{msdial_alignment} object or matrix, according to the input.
 }
 \description{
 Performs Probabilistic Quotient Normalization

@@ -2,13 +2,13 @@
 #'
 #' @description Performs Probabilistic Quotient Normalization
 #'
-#' @param X matrix to normalize samples * variables (rows * columns)
+#' @param x An \code{msdial_alignment} object or matrix with rows as samples and features as columns.
 #' @param n normalization reference: "mean" for using the overall average of variables as reference
 #' or "median" (default) for using the overall median of variables as reference
 #' @param QC vector of number(s) to specify samples which average to use as reference
 #' (e.g. QC samples)
 #'
-#' @return Normalized table samples * variables (rows * columns)
+#' @return A normalized \code{msdial_alignment} object or matrix, according to the input.
 #'
 #' @importFrom stats median
 #'
@@ -21,7 +21,12 @@
 #' Application in H1 NMR Metabonomics. Anal. Chem. 78, 4281-4290 (2006).
 #' @export
 
-pqn <- function(X, n = "median", QC = NULL) {
+pqn <- function(x, n = "median", QC = NULL) {
+  if (inherits(x, what = "msdial_alignment")){
+    X <- x$tab
+  } else if (class(x) %in% c("data.frame","matrix")){
+    X <- x
+  }
   X.norm <- matrix(nrow = nrow(X), ncol = ncol(X))
   colnames(X.norm) <- colnames(X)
   rownames(X.norm) <- rownames(X)
@@ -53,8 +58,10 @@ pqn <- function(X, n = "median", QC = NULL) {
   for (i in 1:nrow(X)) {
     X.norm[i, ] <- as.numeric(X[i, ] / median(as.numeric(X[i, ] / mX), na.rm=TRUE))
   }
-
-  X.norm
+  if (inherits(x, what = "msdial_alignment")){
+    x$tab <- X.norm
+  } else{x <- X.norm}
+  x
 }
 
 
@@ -78,17 +85,17 @@ subtract_blanks <- function(x, blanks.idx, blanks.pattern, what=c("mean","median
   what <- match.arg(what, c("mean","median"))
   fn <- switch(what, "mean" = mean,
                "median" = median)
-  x.n <- sapply(seq_along(x$tab), function(j){
-    x$tab[,j] - fn(x$tab[blanks.idx, j])
+
+  x.n <- apply(x$tab, 2, function(col){
+    col - fn(col[blanks.idx])
   })
 
   # Round any negative nunbers up to 0
   x.n <- apply(x.n, c(1,2), function(y) max(y,0))
 
-  # retrieve names
-  dimnames(x.n) <-dimnames(x$tab)
+  # filter out 0 columns
+  x.n <- x.n[,-which(colMeans(x.n) == 0)]
+
   x$tab <- x.n
-  # filter 0 columns
-  x$tab <- x$tab[,-which(colMeans(x$tab)==0)]
   x
 }
