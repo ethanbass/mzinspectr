@@ -27,11 +27,8 @@ pqn <- function(x, n = "median", QC = NULL) {
   } else if (class(x) %in% c("data.frame","matrix")){
     X <- x
   }
-  X.norm <- matrix(nrow = nrow(X), ncol = ncol(X))
-  colnames(X.norm) <- colnames(X)
-  rownames(X.norm) <- rownames(X)
 
-  if (!is.null(QC)) {
+  if (!is.null(QC)){
     # if QC vector exists, use this as reference spectrum
     if (length(QC) == 1) {
       # only 1 reference sample given
@@ -55,9 +52,10 @@ pqn <- function(x, n = "median", QC = NULL) {
   }
 
   # do the actual normalization
-  for (i in 1:nrow(X)) {
-    X.norm[i, ] <- as.numeric(X[i, ] / median(as.numeric(X[i, ] / mX), na.rm=TRUE))
-  }
+  X.norm <- t(apply(X, 1, function(Xi){
+    Xi / median(as.numeric(Xi / mX), na.rm=TRUE)
+  }))
+
   if (inherits(x, what = "msdial_alignment")){
     x$tab <- X.norm
   } else{x <- X.norm}
@@ -72,6 +70,7 @@ pqn <- function(x, n = "median", QC = NULL) {
 #' @param drop Logical. Whether to drop columns containing only zeros. Defaults to TRUE.
 #' @return A \code{msdial_alignment} object with the mean or median of the blanks
 #' subtracted from each peak.
+#' @export
 
 subtract_blanks <- function(x, blanks.idx, blanks.pattern,
                             what=c("mean","median"), drop = TRUE){
@@ -109,3 +108,25 @@ subtract_blanks <- function(x, blanks.idx, blanks.pattern,
   x
 }
 
+#' normalize by internal standard
+#' @param x An \code{msdial_alignment} object or matrix with rows as samples and features as columns.
+#' @param idx Column index of internal standard.
+#' @author Ethan Bass
+#' @export
+normalize_itsd <- function(x, idx) {
+  if (inherits(x, what = "msdial_alignment")){
+    X <- x$tab
+  } else if (class(x) %in% c("data.frame","matrix")){
+    X <- x
+  }
+
+  # do the actual normalization
+  X.norm <- t(apply(X, 1, function(Xi){
+    Xi / Xi[idx]
+  }))
+
+  if (inherits(x, what = "msdial_alignment")){
+    x$tab <- X.norm
+  } else{x <- X.norm}
+  x
+}

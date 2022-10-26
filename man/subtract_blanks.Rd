@@ -4,7 +4,13 @@
 \alias{subtract_blanks}
 \title{Subtract blanks}
 \usage{
-subtract_blanks(x, blanks.idx, blanks.pattern, what = c("mean", "median"))
+subtract_blanks(
+  x,
+  blanks.idx,
+  blanks.pattern,
+  what = c("mean", "median"),
+  drop = TRUE
+)
 }
 \arguments{
 \item{x}{A \code{msdial_alignment} object.}
@@ -14,6 +20,8 @@ subtract_blanks(x, blanks.idx, blanks.pattern, what = c("mean", "median"))
 \item{blanks.pattern}{A string that uniquely identifies blank samples by name}
 
 \item{what}{Whether to subtract the mean or median value}
+
+\item{drop}{Logical. Whether to drop columns containing only zeros. Defaults to TRUE.}
 }
 \value{
 A \code{msdial_alignment} object with the mean or median of the blanks

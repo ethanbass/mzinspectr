@@ -22,6 +22,7 @@ tidy_eispectrum <- function(x){
 #' @importFrom stringr str_split_fixed
 #' @return Returns EI spectrum as a \code{data.frame}.
 #' @author Ethan Bass
+#' @export
 
 find_peak <- function(x, rt, mz, rt.tol = .01, mz.tol =.05){
   pks <- seq_along(x$peak_meta)

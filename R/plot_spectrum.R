@@ -11,8 +11,8 @@
 #' @param digits How many figures to include on mz labels
 #' @importFrom graphics text
 #' @return No return value
-#' @export
 #' @author Ethan Bass
+#' @export
 
 plot_spectrum <- function(x, col, plot_labels=TRUE, lab.int = 0.2,
                           type=c("plotly", "base"), width = 1, digits = 1){

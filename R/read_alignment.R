@@ -61,9 +61,13 @@ row.names.msdial_alignment <- function(x){
   row.names(x$tab)
 }
 
-#' @noRd
+#' Filter alignment by provided indices.
+#' @param x An \code{msdial_alignment} object or matrix with rows as samples and features as columns.
+#' @param idx Indices to be retained
+#' @param what Which dimension to filter on. Either \code{rows} or columns (\code{cols}).
+#' @author Ethan Bass
 #' @export
-subset.msdial_alignment <- function(x, idx, what=c("rows","cols")){
+filter_alignment <- function(x, idx, what=c("rows","cols")){
   what <- match.arg(what, c("rows","cols"))
   if (what == "rows"){
   x$tab <- x$tab[idx, ]

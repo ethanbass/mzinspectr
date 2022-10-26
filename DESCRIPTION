@@ -1,6 +1,6 @@
 Package: msdialreadr
 Type: Package
-Title: Utility for working with MS-DIAL alignment files
+Title: Read and Analyze MS-DIAL Alignment Files
 Version: 0.1.0
 Authors@R: 
     person("Ethan", "Bass", , "ethanbass@gmail.com", role = c("aut", "cre"),
