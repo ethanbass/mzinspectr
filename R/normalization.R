@@ -56,3 +56,39 @@ pqn <- function(X, n = "median", QC = NULL) {
 
   X.norm
 }
+
+
+#' Subtract blanks
+#' @param x A \code{msdial_alignment} object.
+#' @param blanks.idx Indices of blank samples
+#' @param blanks.pattern A string that uniquely identifies blank samples by name
+#' @param what Whether to subtract the mean or median value
+#' @return A \code{msdial_alignment} object with the mean or median of the blanks
+#' subtracted from each peak.
+
+subtract_blanks <- function(x, blanks.idx, blanks.pattern, what=c("mean","median")){
+  if (missing(blanks.idx)){
+    if (!missing(blanks.pattern)){
+      blanks.idx <- grep(blanks.pattern, x$sample_meta$full.name)
+    } else{
+      stop("Must define blanks by providing an index (`blanks.idx`) or pattern (`blanks.pattern`).")
+    }
+  }
+  # For each column, subtract mean or median of blanks.
+  what <- match.arg(what, c("mean","median"))
+  fn <- switch(what, "mean" = mean,
+               "median" = median)
+  x.n <- sapply(seq_along(x$tab), function(j){
+    x$tab[,j] - fn(x$tab[blanks.idx, j])
+  })
+
+  # Round any negative nunbers up to 0
+  x.n <- apply(x.n, c(1,2), function(y) max(y,0))
+
+  # retrieve names
+  dimnames(x.n) <-dimnames(x$tab)
+  x$tab <- x.n
+  # filter 0 columns
+  x$tab <- x$tab[,-which(colMeans(x$tab)==0)]
+  x
+}

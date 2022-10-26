@@ -10,7 +10,9 @@ read_alignment(path)
 \item{path}{Path to MS dial alignment file}
 }
 \value{
-Returns \code{msdial_alignment} object containing peak data and metadata.
+Returns \code{msdial_alignment} object. A list of 3 data.frames,
+containing peak data (\code{tab}), peak metadata (\code{peak_meta}) and
+sample metadata (\code{sample_meta}).
 }
 \description{
 Read MSDIAL alignment file

@@ -1,7 +1,9 @@
 #' Read MSDIAL alignment file
 #' @param path Path to MS dial alignment file
 #' @importFrom utils read.csv
-#' @return Returns \code{msdial_alignment} object containing peak data and metadata.
+#' @return Returns \code{msdial_alignment} object. A list of 3 data.frames,
+#' containing peak data (\code{tab}), peak metadata (\code{peak_meta}) and
+#' sample metadata (\code{sample_meta}).
 #' @export
 #' @author Ethan Bass
 
@@ -9,7 +11,7 @@ read_alignment <- function(path){
   x<-read.csv(path, sep = "\t",skip = 4, header = TRUE)
   colnames(x)[(ncol(x)-1):ncol(x)] <- c("MEAN", "SD")
 
-  # invert and convert to dataframe
+  # invert and convert to data.frame
   x1 <- as.data.frame(t(x))
   rownames(x1) <- colnames(x)
 

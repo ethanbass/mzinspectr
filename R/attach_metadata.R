@@ -10,7 +10,6 @@
 #' @return A \code{MSDIAL_alignment} object with attached metadata in the \code{
 #' $sample_meta} slot.
 #' @author Ethan Bass
-#' @examples
 #' @export attach_metadata
 
 attach_metadata <- function(x, metadata, col){
