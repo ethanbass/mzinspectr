@@ -60,3 +60,17 @@ dim.msdial_alignment <- function(x){
 row.names.msdial_alignment <- function(x){
   row.names(x$tab)
 }
+
+#' @noRd
+#' @export
+subset.msdial_alignment <- function(x, idx, what=c("rows","cols")){
+  what <- match.arg(what, c("rows","cols"))
+  if (what == "rows"){
+  x$tab <- x$tab[idx, ]
+  x$sample_meta <- x$sample_meta[idx,]
+  } else if (what == "cols"){
+    x$tab[,idx]
+    x$peak_meta[idx,]
+  }
+  x
+}

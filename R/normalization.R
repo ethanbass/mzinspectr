@@ -64,7 +64,6 @@ pqn <- function(x, n = "median", QC = NULL) {
   x
 }
 
-
 #' Subtract blanks
 #' @param x A \code{msdial_alignment} object.
 #' @param blanks.idx Indices of blank samples
@@ -77,6 +76,9 @@ subtract_blanks <- function(x, blanks.idx, blanks.pattern, what=c("mean","median
   if (missing(blanks.idx)){
     if (!missing(blanks.pattern)){
       blanks.idx <- grep(blanks.pattern, x$sample_meta$full.name)
+      if (length(blanks.idx) == 0){
+        stop("Blanks not found! Please double check the supplied pattern.")
+      }
     } else{
       stop("Must define blanks by providing an index (`blanks.idx`) or pattern (`blanks.pattern`).")
     }
@@ -94,8 +96,12 @@ subtract_blanks <- function(x, blanks.idx, blanks.pattern, what=c("mean","median
   x.n <- apply(x.n, c(1,2), function(y) max(y,0))
 
   # filter out 0 columns
-  x.n <- x.n[,-which(colMeans(x.n) == 0)]
+  zeros <- which(colMeans(x.n) == 0)
+  if (length(zeros)>0){
+    x.n <- x.n[,-zeros]
+  }
 
   x$tab <- x.n
   x
 }
+
