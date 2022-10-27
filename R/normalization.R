@@ -3,12 +3,14 @@
 #' @description Performs Probabilistic Quotient Normalization
 #'
 #' @param x An \code{msdial_alignment} object or matrix with rows as samples and features as columns.
-#' @param n normalization reference: "mean" for using the overall average of variables as reference
-#' or "median" (default) for using the overall median of variables as reference
+#' @param ref Reference for normalization: either \code{median} (default) to use
+#' the overall median of variables as the reference, or \code{mean} to use the
+#' overall average of variables as the reference.
 #' @param QC vector of number(s) to specify samples which average to use as reference
 #' (e.g. QC samples)
 #'
-#' @return A normalized \code{msdial_alignment} object or matrix, according to the input.
+#' @return A normalized \code{msdial_alignment} object or \code{matrix},
+#' according to the input.
 #'
 #' @importFrom stats median
 #'
@@ -21,13 +23,13 @@
 #' Application in H1 NMR Metabonomics. Anal. Chem. 78, 4281-4290 (2006).
 #' @export
 
-pqn <- function(x, n = "median", QC = NULL) {
+pqn <- function(x, ref = c("median", "mean"), QC = NULL) {
+  ref <- match.arg(ref, c("median","mean"))
   if (inherits(x, what = "msdial_alignment")){
     X <- x$tab
   } else if (class(x) %in% c("data.frame","matrix")){
     X <- x
   }
-
   if (!is.null(QC)){
     # if QC vector exists, use this as reference spectrum
     if (length(QC) == 1) {
@@ -54,6 +56,60 @@ pqn <- function(x, n = "median", QC = NULL) {
   # do the actual normalization
   X.norm <- t(apply(X, 1, function(Xi){
     Xi / median(as.numeric(Xi / mX), na.rm=TRUE)
+  }))
+
+  if (inherits(x, what = "msdial_alignment")){
+    x$tab <- X.norm
+  } else{x <- X.norm}
+  x
+}
+
+#' Total sum normalization
+#' Divides each row by the sum of the features in that row.
+#' @param x An \code{msdial_alignment} object or matrix with rows as samples and features as columns.
+#' @return A normalized \code{msdial_alignment} object or \code{matrix},
+#' according to the input.
+#' @export
+
+tsn <- function(x) {
+  if (inherits(x, what = "msdial_alignment")){
+    X <- x$tab
+  } else if (class(x) %in% c("data.frame","matrix")){
+    X <- x
+  }
+
+  # do the actual normalization
+  X.norm <- t(apply(X, 1, function(Xi){
+    Xi / sum(Xi, na.rm=TRUE)
+  }))
+
+  if (inherits(x, what = "msdial_alignment")){
+    x$tab <- X.norm
+  } else{x <- X.norm}
+  x
+}
+
+#' Normalize by internal standard
+#' @param x An \code{msdial_alignment} object or matrix with rows as samples and features as columns.
+#' @param idx Column index of internal standard.
+#' @author Ethan Bass
+#' @return A normalized \code{msdial_alignment} object or \code{matrix},
+#' according to the input.
+#' @export
+normalize_itsd <- function(x, idx) {
+  if (inherits(x, what = "msdial_alignment")){
+    X <- x$tab
+  } else if (class(x) %in% c("data.frame","matrix")){
+    X <- x
+  }
+
+  # do the actual normalization
+  zeros <- X[,idx]
+  if (length(zeros)>0){
+    warning(paste("Internal standard is 0 in the following samples:", paste(sQuote(row.names(dfd)[zeros]), collapse=", ")))
+  }
+  X.norm <- t(apply(X, 1, function(Xi){
+    Xi / Xi[idx]
   }))
 
   if (inherits(x, what = "msdial_alignment")){
@@ -105,32 +161,5 @@ subtract_blanks <- function(x, blanks.idx, blanks.pattern,
   }
 
   x$tab <- x.n
-  x
-}
-
-#' normalize by internal standard
-#' @param x An \code{msdial_alignment} object or matrix with rows as samples and features as columns.
-#' @param idx Column index of internal standard.
-#' @author Ethan Bass
-#' @export
-normalize_itsd <- function(x, idx) {
-  if (inherits(x, what = "msdial_alignment")){
-    X <- x$tab
-  } else if (class(x) %in% c("data.frame","matrix")){
-    X <- x
-  }
-
-  # do the actual normalization
-  zeros <- X[,idx]
-  if (length(zeros)>0){
-    warning(paste("Internal standard is 0 in the following samples:", paste(sQuote(row.names(dfd)[zeros]), collapse=", ")))
-  }
-  X.norm <- t(apply(X, 1, function(Xi){
-    Xi / Xi[idx]
-  }))
-
-  if (inherits(x, what = "msdial_alignment")){
-    x$tab <- X.norm
-  } else{x <- X.norm}
   x
 }
