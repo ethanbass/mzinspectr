@@ -4,19 +4,21 @@
 \alias{pqn}
 \title{Probabilistic Quotient Normalization}
 \usage{
-pqn(x, n = "median", QC = NULL)
+pqn(x, ref = c("median", "mean"), QC = NULL)
 }
 \arguments{
 \item{x}{An \code{msdial_alignment} object or matrix with rows as samples and features as columns.}
 
-\item{n}{normalization reference: "mean" for using the overall average of variables as reference
-or "median" (default) for using the overall median of variables as reference}
+\item{ref}{Reference for normalization: either \code{median} (default) to use
+the overall median of variables as the reference, or \code{mean} to use the
+overall average of variables as the reference.}
 
 \item{QC}{vector of number(s) to specify samples which average to use as reference
 (e.g. QC samples)}
 }
 \value{
-A normalized \code{msdial_alignment} object or matrix, according to the input.
+A normalized \code{msdial_alignment} object or \code{matrix},
+according to the input.
 }
 \description{
 Performs Probabilistic Quotient Normalization

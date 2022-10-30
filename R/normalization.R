@@ -106,7 +106,8 @@ normalize_itsd <- function(x, idx) {
   # do the actual normalization
   zeros <- X[,idx]
   if (length(zeros)>0){
-    warning(paste("Internal standard is 0 in the following samples:", paste(sQuote(row.names(dfd)[zeros]), collapse=", ")))
+    warning(paste("Internal standard is 0 in the following samples:",
+                  paste(sQuote(row.names(x)[zeros]), collapse=", ")))
   }
   X.norm <- t(apply(X, 1, function(Xi){
     Xi / Xi[idx]

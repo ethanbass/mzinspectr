@@ -11,7 +11,8 @@ plot_spectrum(
   lab.int = 0.2,
   type = c("plotly", "base"),
   width = 1,
-  digits = 1
+  digits = 1,
+  export = TRUE
 )
 }
 \arguments{
@@ -30,9 +31,13 @@ plotly (\code{plotly})}
 \item{width}{Width of bars.}
 
 \item{digits}{How many figures to include on mz labels}
+
+\item{export}{Logical. Whether to return the spectrum as a \code{data.frame}
+after plotting.}
 }
 \value{
-No return value
+If \code{export} is \code{TRUE}, returns spectrum as \code{data.frame}.
+Otherwise, no return value.
 }
 \description{
 Plot mass spectrum of peak given by \code{col}.
