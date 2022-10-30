@@ -36,19 +36,19 @@ pqn <- function(x, ref = c("median", "mean"), QC = NULL) {
       # only 1 reference sample given
       mX <- as.numeric(X[QC, ])
     } else {
-      if (n == "mean") {
+      if (ref == "mean") {
         mX <- as.numeric(colMeans(X[QC, ]))
       }
-      if (n == "median") {
+      if (ref == "median") {
         mX <- as.numeric(apply(X[QC, ], 2, median))
       }
     }
   } else {
     # otherwise use the mean or median of all samples as reference sample
-    if (n == "mean") {
+    if (ref == "mean") {
       mX <- as.numeric(colMeans(X))
     }
-    if (n == "median") {
+    if (ref == "median") {
       mX <- as.numeric(apply(X, 2, median))
     }
   }
