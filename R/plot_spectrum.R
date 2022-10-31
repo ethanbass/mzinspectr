@@ -9,8 +9,6 @@
 #' plotly (\code{plotly})
 #' @param width Width of bars.
 #' @param digits How many figures to include on mz labels
-#' @param export Logical. Whether to return the spectrum as a \code{data.frame}
-#' after plotting.
 #' @importFrom graphics text
 #' @return If \code{export} is \code{TRUE}, returns spectrum as \code{data.frame}.
 #' Otherwise, no return value.
@@ -18,8 +16,7 @@
 #' @export
 
 plot_spectrum <- function(x, col, plot_labels=TRUE, lab.int = 0.2,
-                          type=c("plotly", "base"), width = 1, digits = 1,
-                          export=TRUE){
+                          type=c("plotly", "base"), width = 1, digits = 1){
   type <- match.arg(type, c("plotly", "base"))
   spec <- tidy_eispectrum(x$peak_meta[col, "EI.spectrum"])
   lab.idx <- which(spec$intensity > lab.int*max(spec$intensity))
@@ -45,10 +42,8 @@ plot_spectrum <- function(x, col, plot_labels=TRUE, lab.int = 0.2,
     }
     p
   }
-  if (export){
-    spec
-  }
 }
+
 
 #' @noRd
 check_for_pkg <- function(pkg){

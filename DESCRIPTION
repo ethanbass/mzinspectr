@@ -1,13 +1,15 @@
 Package: msdialreadr
 Type: Package
 Title: Read and Analyze MS-DIAL Alignment Files
-Version: 0.1.0
+Version: 0.2.0
 Authors@R: 
     person("Ethan", "Bass", , "ethanbass@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-6175-6739"))
 Maintainer: Ethan Bass <ethanbass@gmail.com>
 Description: A few functions for analyzing MSDIAL alignments in R.
 Imports:
+    OrgMassSpecR,
+    pbapply,
     stats,
     stringr
 Suggests:
