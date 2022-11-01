@@ -4,7 +4,7 @@
 \alias{filter_alignment}
 \title{Filter alignment by provided indices.}
 \usage{
-filter_alignment(x, idx, what = c("rows", "cols"))
+filter_alignment(x, idx, what = c("rows", "cols"), inverse = FALSE)
 }
 \arguments{
 \item{x}{An \code{msdial_alignment} object or matrix with rows as samples and features as columns.}
@@ -12,6 +12,8 @@ filter_alignment(x, idx, what = c("rows", "cols"))
 \item{idx}{Indices to be retained}
 
 \item{what}{Which dimension to filter on. Either \code{rows} or columns (\code{cols}).}
+
+\item{inverse}{Whether to retain (default) or remove the specified columns.}
 }
 \description{
 Filter alignment by provided indices.

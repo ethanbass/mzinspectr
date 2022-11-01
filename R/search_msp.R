@@ -47,7 +47,7 @@ search_msp <- function(x, db, ..., n.results = 10, parallel, mc.cores = 2,
   r
 }
 
-#' Match spectrum in MSDIAL alignment to database
+#' Search spectra in MSDIAL alignment against database
 #' @param x Spectrum, as produced by \code{\link{get_spectrum}}.
 #' @param db MSP database as list
 #' @param cols Index or indices of feature(s) to select
@@ -62,14 +62,16 @@ search_msp <- function(x, db, ..., n.results = 10, parallel, mc.cores = 2,
 #' @author Ethan Bass
 #' @export
 
-match_spectrum <- function(x, db, cols, ..., ri_thresh = 100, spectral_weight = 0.8,
+search_spectra <- function(x, db, cols, ..., ri_thresh = 100, spectral_weight = 0.8,
                            n.results=10, mc.cores = 2,  ris){
   if (any(is.null(x$matches))){
-    x$matches <- list()
+    x$matches <- as.list(rep(NA, ncol(x$tab)))
+    names(x$matches) <- colnames(x$tab)
   }
   if (missing(ris)){
     ris <- sapply(db, function(x) x$RI)
   }
+  for (col in cols){
     ri_diff <- abs(as.numeric(x$peak_meta[col, "Average.RI"]) - ris)
     idx <- which(ri_diff < ri_thresh)
     sp <- get_spectrum(x, col)
@@ -82,48 +84,6 @@ match_spectrum <- function(x, db, cols, ..., ri_thresh = 100, spectral_weight = 
     results$ri_match <- ri_score[sel]
     results$total_score <- total_score[sel]
     x$matches[[col]] <- results
-    x
-}
-
-###
-# match_spectrum <- function(x, db, cols, ..., ri_thresh = 100, spectral_weight = 0.8,
-#                            n.results=10, mc.cores = 2,  ris){
-#   if (any(is.null(x$matches))){
-#     x$matches <- list()
-#   }
-#   if (missing(ris)){
-#     ris <- sapply(db, function(x) x$RI)
-#   }
-#   for (i in cols){
-#     ri_diff <- abs(as.numeric(x$peak_meta[col, "Average.RI"]) - ris)
-#     idx <- which(ri_diff < ri_thresh)
-#     sp <- get_spectrum(x, col)
-#     sp_score <- search_msp(sp, db[idx], ..., what="scores", mc.cores = mc.cores)
-#     ri_score <- ri_diff[idx]/ri_thresh
-#     total_score <- sp_score*spectral_weight + ri_score*(1-spectral_weight)
-#     sel <- order(total_score, decreasing=TRUE)[1:n.results]
-#     results <- msp_to_dataframe(db[idx][sel])
-#     results$spectral_match <- sp_score[sel]
-#     results$ri_match <- ri_score[sel]
-#     results$total_score <- total_score[sel]
-#     x$matches[[col]] <- results
-#   }
-#   names(x$matches) <- colnames(x$tab)[cols]
-#   x
-# }
-###
-
-
-#' Match spectra to msp database
-#' @param x Spectrum, as produced by \code{\link{get_spectrum}}.
-#' @param db MSP database as list
-#' @param ... Additional arguments to \code{match_spectrum}
-#' @param mc.cores How many cores to use for parallel processing? Defaults to 2.
-#' @author Ethan Bass
-#' @export
-match_spectra <- function(x, db, ..., mc.cores=2){
-  for (i in colnames(x$tab)){
-    x <-  match_spectrum(x, db, i, ..., mc.cores=mc.cores)
   }
   x
 }
