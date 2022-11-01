@@ -65,16 +65,20 @@ row.names.msdial_alignment <- function(x){
 #' @param x An \code{msdial_alignment} object or matrix with rows as samples and features as columns.
 #' @param idx Indices to be retained
 #' @param what Which dimension to filter on. Either \code{rows} or columns (\code{cols}).
+#' @param inverse Whether to retain (default) or remove the specified columns.
 #' @author Ethan Bass
 #' @export
-filter_alignment <- function(x, idx, what=c("rows","cols")){
+filter_alignment <- function(x, idx, what=c("rows","cols"), inverse = FALSE){
   what <- match.arg(what, c("rows","cols"))
+  if (inverse){
+    idx <- -idx
+  }
   if (what == "rows"){
   x$tab <- x$tab[idx, ]
   x$sample_meta <- x$sample_meta[idx,]
   } else if (what == "cols"){
-    x$tab[,idx]
-    x$peak_meta[idx,]
+    x$tab <- x$tab[,idx]
+    x$peak_meta <- x$peak_meta[idx,]
   }
   x
 }

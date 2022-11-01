@@ -4,12 +4,22 @@
 \alias{search_msp}
 \title{Search MSP database for spectrum}
 \usage{
-search_msp(x, db, n.results = 10, parallel, mc.cores = 2, ...)
+search_msp(
+  x,
+  db,
+  ...,
+  n.results = 10,
+  parallel,
+  mc.cores = 2,
+  what = c("msd", "df", "scores")
+)
 }
 \arguments{
 \item{x}{Spectrum, as produced by \code{\link{get_spectrum}}.}
 
 \item{db}{MSP database as list}
+
+\item{...}{Additional arguments to \code{\link[OrgMassSpecR]{SpectrumSimilarity}}}
 
 \item{n.results}{Number of results to return}
 
@@ -18,7 +28,8 @@ does not work on Windows).}
 
 \item{mc.cores}{How many cores to use for parallel processing? Defaults to 2.}
 
-\item{...}{Additional arguments to \code{\link[OrgMassSpecR]{SpectrumSimilarity}}}
+\item{what}{What kind of object to return. Either \code{msdial_alignment} object (\code{msd})
+or \code{data.frame} (\code{df}).}
 }
 \description{
 Search MSP database for spectrum
