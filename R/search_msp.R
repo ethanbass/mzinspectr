@@ -62,7 +62,7 @@ search_msp <- function(x, db, ..., n.results = 10, parallel, mc.cores = 2,
 #' @author Ethan Bass
 #' @export
 
-search_spectra <- function(x, db, cols, ..., ri_thresh = 100, spectral_weight = 0.8,
+search_spectra <- function(x, db, cols, ..., ri_thresh = 100, spectral_weight = 0.6,
                            n.results=10, mc.cores = 2,  ris){
   if (any(is.null(x$matches))){
     x$matches <- as.list(rep(NA, ncol(x$tab)))
