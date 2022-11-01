@@ -4,7 +4,7 @@
 \alias{find_peak}
 \title{Find peak based on retention time and/or mass}
 \usage{
-find_peak(x, rt, mz, rt.tol = 0.01, mz.tol = 0.05)
+find_peak(x, rt, mz, rt.tol = 0.01, mz.tol = 0.05, plot_it = TRUE)
 }
 \arguments{
 \item{x}{An \code{msdial_alignment} object}
@@ -16,6 +16,8 @@ find_peak(x, rt, mz, rt.tol = 0.01, mz.tol = 0.05)
 \item{rt.tol}{Tolerance for matching retention time}
 
 \item{mz.tol}{Tolerance for matching Quant.mass}
+
+\item{plot_it}{Logical. Whether to plot the spectra.}
 }
 \value{
 Returns EI spectrum as a \code{data.frame}.

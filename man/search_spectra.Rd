@@ -10,7 +10,7 @@ search_spectra(
   cols,
   ...,
   ri_thresh = 100,
-  spectral_weight = 0.8,
+  spectral_weight = 0.6,
   n.results = 10,
   mc.cores = 2,
   ris

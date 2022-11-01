@@ -6,7 +6,7 @@
 #' @param ... Additional arguments to \code{\link[OrgMassSpecR]{SpectrumSimilarity}}
 #' @param
 #' @param ri_thresh Maximum difference between retention indices for a match
-#' to be considered. If set to 0, retention indices
+#' to be considered.
 #' @param spectral_weight A number between 0 and 1 to specify the weight given
 #' to spectral similarity versus retention index similarity.
 #' @param n.results How many results to return.
@@ -25,11 +25,9 @@ search_spectra <- function(x, db, cols, ..., ri_thresh = 100, spectral_weight = 
     ris <- sapply(db, function(x) x$RI)
   }
   for (col in cols){
-    if (ri_thresh != 0){
+    sp <- get_spectrum(x, col)
     ri_diff <- abs(as.numeric(x$peak_meta[col, "Average.RI"]) - ris)
     idx <- which(ri_diff < ri_thresh)
-    } else {idx = length(db)}
-    sp <- get_spectrum(x, col)
     sp_score <- search_msp(sp, db[idx], ..., what="scores", mc.cores = mc.cores)
     ri_score <- ri_diff[idx]/ri_thresh
     total_score <- sp_score*spectral_weight + ri_score*(1-spectral_weight)
