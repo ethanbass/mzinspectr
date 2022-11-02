@@ -8,6 +8,22 @@ A few functions for analyzing [MS-DIAL](http://prime.psc.riken.jp/compms/msdial/
 
 **Note**: This package is not created or endorsed by the creators of MS-DIAL.
 
+### Installation
+
+Currently it's recommended to install msdialreadr directly from GitHub.
+
+```
+install.packages("devtools")
+devtools::install_github("https://github.com/ethanbass/msdialreadr/")
+```
+
+It can also be installed via R Universe:
+
+```
+install.packages("msdialreadr", repos="https://ethanbass.r-universe.dev/", type="source")
+```
+
+
 ### Exporting your alignment
 
 Export your alignment from MS-DIAL by selecting the `Export:Alignment Result` menu.
