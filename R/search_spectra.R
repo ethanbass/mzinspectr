@@ -4,7 +4,6 @@
 #' @param db MSP database as list
 #' @param cols Index or indices of feature(s) to select
 #' @param ... Additional arguments to \code{\link[OrgMassSpecR]{SpectrumSimilarity}}
-#' @param
 #' @param ri_thresh Maximum difference between retention indices for a match
 #' to be considered.
 #' @param spectral_weight A number between 0 and 1 to specify the weight given

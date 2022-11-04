@@ -92,11 +92,14 @@ tsn <- function(x) {
 #' Normalize by internal standard
 #' @param x An \code{msdial_alignment} object or matrix with rows as samples and features as columns.
 #' @param idx Column index of internal standard.
+#' @param plot_it Logical. Whether to plot ITSD against total peak area.
+#' @importFrom graphics abline legend plot
+#' @importFrom stats lm
 #' @author Ethan Bass
 #' @return A normalized \code{msdial_alignment} object or \code{matrix},
 #' according to the input.
 #' @export
-normalize_itsd <- function(x, idx) {
+normalize_itsd <- function(x, idx, plot_it = FALSE) {
   if (inherits(x, what = "msdial_alignment")){
     X <- x$tab
   } else if (class(x) %in% c("data.frame","matrix")){
@@ -104,11 +107,19 @@ normalize_itsd <- function(x, idx) {
   }
 
   # do the actual normalization
-  zeros <- X[,idx]
+  zeros <- which(X[,idx] == 0)
   if (length(zeros)>0){
     warning(paste("Internal standard is 0 in the following samples:",
                   paste(sQuote(row.names(x)[zeros]), collapse=", ")))
   }
+
+  if (plot_it){
+    m <- lm(rowSums(X) ~ X[,idx])
+    plot(rowSums(X) ~ X[,idx], xlab = "[ITSD]", ylab = "total peak area")
+    abline(m)
+    legend("topright",legend=paste("R2 =", format(summary(m)$r.squared, digits=3)))
+  }
+
   X.norm <- t(apply(X, 1, function(Xi){
     Xi / Xi[idx]
   }))
