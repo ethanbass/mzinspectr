@@ -8,10 +8,12 @@ Authors@R:
 Maintainer: Ethan Bass <ethanbass@gmail.com>
 Description: A few functions for analyzing MSDIAL alignments in R. (Note: This package is not created or endorsed by the authors of MS-DIAL). Includes functions for feature normalization, subtraction of blanks, and mass library (msp) search.
 Imports:
+    dplyr,
     OrgMassSpecR,
     pbapply,
     stats,
-    stringr
+    stringr,
+    tidyr
 Suggests:
     plotly
 License: MIT + file LICENSE
