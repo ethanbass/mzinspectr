@@ -17,7 +17,7 @@ search_spectra(
 )
 }
 \arguments{
-\item{x}{Spectrum, as produced by \code{\link{get_spectrum}}.}
+\item{x}{An \code{msdial_alignment} object.}
 
 \item{db}{MSP database as list}
 

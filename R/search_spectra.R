@@ -1,6 +1,6 @@
 
 #' Search spectra in MSDIAL alignment against database
-#' @param x Spectrum, as produced by \code{\link{get_spectrum}}.
+#' @param x An \code{msdial_alignment} object.
 #' @param db MSP database as list
 #' @param cols Index or indices of feature(s) to select
 #' @param ... Additional arguments to \code{\link[OrgMassSpecR]{SpectrumSimilarity}}
