@@ -28,7 +28,7 @@ search_spectra(
 \item{ri_thresh}{Maximum difference between retention indices for a match
 to be considered.}
 
-\item{spectral_weight}{A number between 0 and 1 to specify the weight given
+\item{spectral_weight}{A number between 0 and 1 specifying the weight given
 to spectral similarity versus retention index similarity.}
 
 \item{n.results}{How many results to return.}
@@ -37,8 +37,16 @@ to spectral similarity versus retention index similarity.}
 
 \item{ris}{Retention indices to use}
 }
+\value{
+Returns a modified \code{msdial_alignment} object with database matches
+in the \code{matches} slot.
+}
 \description{
 Search spectra in MSDIAL alignment against database
+}
+\note{
+See [mspcompiler](https://github.com/QizhiSu/mspcompiler) for help compiling
+an msp database.
 }
 \author{
 Ethan Bass

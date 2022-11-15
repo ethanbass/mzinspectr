@@ -6,11 +6,15 @@
 #' @param ... Additional arguments to \code{\link[OrgMassSpecR]{SpectrumSimilarity}}
 #' @param ri_thresh Maximum difference between retention indices for a match
 #' to be considered.
-#' @param spectral_weight A number between 0 and 1 to specify the weight given
+#' @param spectral_weight A number between 0 and 1 specifying the weight given
 #' to spectral similarity versus retention index similarity.
 #' @param n.results How many results to return.
 #' @param mc.cores How many cores to use for parallel processing? Defaults to 2.
 #' @param ris Retention indices to use
+#' @note See [mspcompiler](https://github.com/QizhiSu/mspcompiler) for help compiling
+#' an msp database.
+#' @return Returns a modified \code{msdial_alignment} object with database matches
+#' in the \code{matches} slot.
 #' @author Ethan Bass
 #' @export
 
@@ -43,6 +47,7 @@ search_spectra <- function(x, db, cols, ..., ri_thresh = 100, spectral_weight = 
 #' Get spectrum from MSDIAL alignment object
 #' @param x An \code{msdial_alignment} object or matrix with rows as samples and features as columns.
 #' @param col Index of the feature (column).
+#' @return Returns spectrum as a data.frame with two columns: "mz" and "intensity".
 #' @author Ethan Bass
 #' @export
 

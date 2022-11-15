@@ -11,6 +11,9 @@ get_spectrum(x, col)
 
 \item{col}{Index of the feature (column).}
 }
+\value{
+Returns spectrum as a data.frame with two columns: "mz" and "intensity".
+}
 \description{
 Get spectrum from MSDIAL alignment object
 }
