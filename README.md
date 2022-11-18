@@ -10,14 +10,15 @@ A few functions for analyzing [MS-DIAL](http://prime.psc.riken.jp/compms/msdial/
 
 ### Installation
 
-Currently it's recommended to install msdialreadr directly from GitHub.
+Currently it's recommended to i
+nstall msdialreadr directly from GitHub.
 
 ```
 install.packages("devtools")
 devtools::install_github("https://github.com/ethanbass/msdialreadr/")
 ```
 
-It can also be installed via R Universe:
+It can also be installed via [R Universe](https://ethanbass.r-universe.dev/):
 
 ```
 install.packages("msdialreadr", repos="https://ethanbass.r-universe.dev/", type="source")
