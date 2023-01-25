@@ -45,7 +45,7 @@ in the \code{matches} slot.
 Search spectra in MSDIAL alignment against database
 }
 \note{
-See [mspcompiler](https://github.com/QizhiSu/mspcompiler) for help compiling
+See \href{https://github.com/QizhiSu/mspcompiler}{mspcompiler} for help compiling
 an msp database.
 }
 \author{

@@ -24,7 +24,8 @@ according to the input.
 Performs Probabilistic Quotient Normalization
 }
 \note{
-Adapted from Rcpm package (https://github.com/ricoderks/Rcpm)
+Adapted from the \href{https://github.com/ricoderks/Rcpm}{Rcpm} package
+by  Rico Derks (licensed under GPL3).
 }
 \references{
 Dieterle, F., Ross, A., Schlotterbeck, G. & Senn, H. Probabilistic Quotient

@@ -17,7 +17,8 @@
 #' @author E. Nevedomskaya
 #' @author Rico Derks
 #' @author Ethan Bass
-#' @note Adapted from Rcpm package (https://github.com/ricoderks/Rcpm)
+#' @note Adapted from the \href{https://github.com/ricoderks/Rcpm}{Rcpm} package
+#' by  Rico Derks (licensed under GPL3).
 #' @references Dieterle, F., Ross, A., Schlotterbeck, G. & Senn, H. Probabilistic Quotient
 #' Normalization as Robust Method to Account for Dilution of Complex Biological Mixtures.
 #' Application in H1 NMR Metabonomics. Anal. Chem. 78, 4281-4290 (2006).

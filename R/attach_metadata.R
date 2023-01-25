@@ -51,3 +51,11 @@ keep_order <- function(data, fn, ...) {
   out[,col] <- NULL
   out
 }
+
+transfer_metadata <- function(new_object, old_object,
+                              exclude = c('names','row.names','class','dim','dimnames')){
+  a <- attributes(old_object)
+  a[exclude] <- NULL
+  attributes(new_object) <- c(attributes(new_object), a)
+  new_object
+}

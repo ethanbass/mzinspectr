@@ -28,8 +28,8 @@ does not work on Windows).}
 
 \item{mc.cores}{How many cores to use for parallel processing? Defaults to 2.}
 
-\item{what}{What kind of object to return. Either \code{msdial_alignment} object (\code{msd})
-or \code{data.frame} (\code{df}).}
+\item{what}{What kind of object to return. Either \code{msdial_alignment} object,
+(\code{msd}), or \code{data.frame} (\code{df}).}
 }
 \description{
 Search MSP database for spectrum

@@ -1,4 +1,3 @@
-
 #' Search spectra in MSDIAL alignment against database
 #' @param x An \code{msdial_alignment} object.
 #' @param db MSP database as list
@@ -11,7 +10,7 @@
 #' @param n.results How many results to return.
 #' @param mc.cores How many cores to use for parallel processing? Defaults to 2.
 #' @param ris Retention indices to use
-#' @note See [mspcompiler](https://github.com/QizhiSu/mspcompiler) for help compiling
+#' @note See \href{https://github.com/QizhiSu/mspcompiler}{mspcompiler} for help compiling
 #' an msp database.
 #' @return Returns a modified \code{msdial_alignment} object with database matches
 #' in the \code{matches} slot.
@@ -26,6 +25,9 @@ search_spectra <- function(x, db, cols, ..., ri_thresh = 100, spectral_weight = 
   }
   if (missing(ris)){
     ris <- sapply(db, function(x) x$RI)
+  }
+  if (missing(cols)){
+    cols <- seq_len(ncol(x$tab))
   }
   for (col in cols){
     sp <- get_spectrum(x, col)
@@ -64,16 +66,16 @@ get_spectrum <- function(x, col){
 #' @param parallel Logical. Whether to use parallel processing. (This feature
 #' does not work on Windows).
 #' @param mc.cores How many cores to use for parallel processing? Defaults to 2.
-#' @param what What kind of object to return. Either \code{msdial_alignment} object (\code{msd})
-#' or \code{data.frame} (\code{df}).
+#' @param what What kind of object to return. Either \code{msdial_alignment} object,
+#'  (\code{msd}), or \code{data.frame} (\code{df}).
 #' @importFrom pbapply pblapply
 #' @importFrom OrgMassSpecR SpectrumSimilarity
 #' @author Ethan Bass
 #' @export
 
 search_msp <- function(x, db, ..., n.results = 10, parallel, mc.cores = 2,
-                       what=c("msd", "df","scores")){
-  # result <- match.arg(result, c("msd", "df", "scores"))
+                       what=c("msd", "df", "scores")){
+  result <- match.arg(result, c("msd", "df", "scores"))
   if (missing(parallel)){
     parallel <- .Platform$OS.type != "windows"
   } else if (parallel & .Platform$OS.type == "windows"){
