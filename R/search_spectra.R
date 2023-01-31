@@ -1,15 +1,17 @@
 #' Search spectra in MSDIAL alignment against database
 #' @param x An \code{msdial_alignment} object.
-#' @param db MSP database as list
-#' @param cols Index or indices of feature(s) to select
-#' @param ... Additional arguments to \code{\link[OrgMassSpecR]{SpectrumSimilarity}}
-#' @param ri_thresh Maximum difference between retention indices for a match
-#' to be considered.
-#' @param spectral_weight A number between 0 and 1 specifying the weight given
-#' to spectral similarity versus retention index similarity.
-#' @param n.results How many results to return.
+#' @param db MSP database as list.
+#' @param cols Index or indices of feature(s) to be identified.
+#' @param ... Additional arguments to \code{\link[OrgMassSpecR]{SpectrumSimilarity}}.
+#' @param ri_thresh Maximum difference between retention indices for a match.
+#' to be considered. Defaults to 100.
+#' @param spectral_weight A number between 0 and 1 specifying the weight given.
+#' to spectral similarity versus retention index similarity. Defaults to 0.6.
+#' @param n.results How many results to return. Defaults to 10.
+#' @param parallel Logical. Whether to use parallel processing. (This feature
+#' does not work on Windows).
 #' @param mc.cores How many cores to use for parallel processing? Defaults to 2.
-#' @param ris Retention indices to use
+#' @param ris Retention indices to use.
 #' @note See \href{https://github.com/QizhiSu/mspcompiler}{mspcompiler} for help compiling
 #' an msp database.
 #' @return Returns a modified \code{msdial_alignment} object with database matches
@@ -18,7 +20,7 @@
 #' @export
 
 search_spectra <- function(x, db, cols, ..., ri_thresh = 100, spectral_weight = 0.6,
-                           n.results=10, mc.cores = 2,  ris){
+                           n.results=10, parallel, mc.cores = 2,  ris){
   if (any(is.null(x$matches))){
     x$matches <- as.list(rep(NA, ncol(x$tab)))
     names(x$matches) <- colnames(x$tab)
@@ -29,13 +31,17 @@ search_spectra <- function(x, db, cols, ..., ri_thresh = 100, spectral_weight = 
   if (missing(cols)){
     cols <- seq_len(ncol(x$tab))
   }
+  if (missing(parallel)){
+    parallel <- .Platform$OS.type != "windows"
+  }
   for (col in cols){
     sp <- get_spectrum(x, col)
     ri_diff <- abs(as.numeric(x$peak_meta[col, "Average.RI"]) - ris)
     idx <- which(ri_diff < ri_thresh)
-    sp_score <- search_msp(sp, db[idx], ..., what="scores", mc.cores = mc.cores)
+    sp_score <- search_msp(sp, db[idx], ..., what="scores", parallel = parallel,
+                           mc.cores = mc.cores)
     ri_score <- ri_diff[idx]/ri_thresh
-    total_score <- sp_score*spectral_weight + ri_score*(1-spectral_weight)
+    total_score <- sp_score*spectral_weight + ri_score*(1 - spectral_weight)
     sel <- order(total_score, decreasing=TRUE)[1:n.results]
     results <- msp_to_dataframe(db[idx][sel])
     results$spectral_match <- sp_score[sel]
@@ -75,17 +81,18 @@ get_spectrum <- function(x, col){
 
 search_msp <- function(x, db, ..., n.results = 10, parallel, mc.cores = 2,
                        what=c("msd", "df", "scores")){
-  result <- match.arg(result, c("msd", "df", "scores"))
+  result <- match.arg(what, c("msd", "df", "scores"))
   if (missing(parallel)){
     parallel <- .Platform$OS.type != "windows"
   } else if (parallel & .Platform$OS.type == "windows"){
     parallel <- FALSE
     warning("Parallel processing is not currently available on Windows.")
   }
-  sim <- as.numeric(unlist(pblapply(seq_along(db), function(i){
-    try(SpectrumSimilarity(spec.top = x, spec.bottom = db[[i]]$Spectra,
+  sim <- unlist(pblapply(seq_along(db), function(i){
+    try(OrgMassSpecR::SpectrumSimilarity(spec.top = x, spec.bottom = db[[i]]$Spectra,
                        print.graphic = FALSE, ...))
-  }, cl = mc.cores)))
+  }, cl = mc.cores))
+  sim <- suppressWarnings(as.numeric(sim))
   if (what == "scores"){
     r <- sim
   } else{

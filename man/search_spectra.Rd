@@ -12,6 +12,7 @@ search_spectra(
   ri_thresh = 100,
   spectral_weight = 0.6,
   n.results = 10,
+  parallel,
   mc.cores = 2,
   ris
 )
@@ -19,23 +20,26 @@ search_spectra(
 \arguments{
 \item{x}{An \code{msdial_alignment} object.}
 
-\item{db}{MSP database as list}
+\item{db}{MSP database as list.}
 
-\item{cols}{Index or indices of feature(s) to select}
+\item{cols}{Index or indices of feature(s) to be identified.}
 
-\item{...}{Additional arguments to \code{\link[OrgMassSpecR]{SpectrumSimilarity}}}
+\item{...}{Additional arguments to \code{\link[OrgMassSpecR]{SpectrumSimilarity}}.}
 
-\item{ri_thresh}{Maximum difference between retention indices for a match
-to be considered.}
+\item{ri_thresh}{Maximum difference between retention indices for a match.
+to be considered. Defaults to 100.}
 
-\item{spectral_weight}{A number between 0 and 1 specifying the weight given
-to spectral similarity versus retention index similarity.}
+\item{spectral_weight}{A number between 0 and 1 specifying the weight given.
+to spectral similarity versus retention index similarity. Defaults to 0.6.}
 
-\item{n.results}{How many results to return.}
+\item{n.results}{How many results to return. Defaults to 10.}
+
+\item{parallel}{Logical. Whether to use parallel processing. (This feature
+does not work on Windows).}
 
 \item{mc.cores}{How many cores to use for parallel processing? Defaults to 2.}
 
-\item{ris}{Retention indices to use}
+\item{ris}{Retention indices to use.}
 }
 \value{
 Returns a modified \code{msdial_alignment} object with database matches
