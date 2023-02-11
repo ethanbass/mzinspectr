@@ -81,7 +81,7 @@ get_spectrum <- function(x, col){
 
 search_msp <- function(x, db, ..., n.results = 10, parallel, mc.cores = 2,
                        what=c("msd", "df", "scores")){
-  result <- match.arg(what, c("msd", "df", "scores"))
+  what <- match.arg(what, c("msd", "df", "scores"))
   if (missing(parallel)){
     parallel <- .Platform$OS.type != "windows"
   } else if (parallel & .Platform$OS.type == "windows"){
