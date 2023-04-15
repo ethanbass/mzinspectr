@@ -7,7 +7,7 @@
 #' @export
 #' @author Ethan Bass
 
-read_alignment <- function(path){
+ms_read_alignment <- function(path){
   x<-read.csv(path, sep = "\t",skip = 4, header = TRUE)
   colnames(x)[(ncol(x)-1):ncol(x)] <- c("MEAN", "SD")
 
@@ -28,6 +28,28 @@ read_alignment <- function(path){
             class="msdial_alignment")
 }
 
+
+#' Filter alignment by provided indices.
+#' @param x An \code{msdial_alignment} object or matrix with rows as samples and features as columns.
+#' @param idx Indices to be retained
+#' @param what Which dimension to filter on. Either \code{rows} or columns (\code{cols}).
+#' @param inverse Whether to retain (default) or remove the specified columns.
+#' @author Ethan Bass
+#' @export
+ms_filter_alignment <- function(x, idx, what=c("rows","cols"), inverse = FALSE){
+  what <- match.arg(what, c("rows","cols"))
+  if (inverse){
+    idx <- -idx
+  }
+  if (what == "rows"){
+    x$tab <- x$tab[idx, ]
+    x$sample_meta <- x$sample_meta[idx,]
+  } else if (what == "cols"){
+    x$tab <- x$tab[,idx]
+    x$peak_meta <- x$peak_meta[idx,]
+  }
+  x
+}
 
 #' @importFrom utils head
 #' @noRd
@@ -61,25 +83,3 @@ row.names.msdial_alignment <- function(x){
   row.names(x$tab)
 }
 
-
-#' Filter alignment by provided indices.
-#' @param x An \code{msdial_alignment} object or matrix with rows as samples and features as columns.
-#' @param idx Indices to be retained
-#' @param what Which dimension to filter on. Either \code{rows} or columns (\code{cols}).
-#' @param inverse Whether to retain (default) or remove the specified columns.
-#' @author Ethan Bass
-#' @export
-filter_alignment <- function(x, idx, what=c("rows","cols"), inverse = FALSE){
-  what <- match.arg(what, c("rows","cols"))
-  if (inverse){
-    idx <- -idx
-  }
-  if (what == "rows"){
-    x$tab <- x$tab[idx, ]
-    x$sample_meta <- x$sample_meta[idx,]
-  } else if (what == "cols"){
-    x$tab <- x$tab[,idx]
-    x$peak_meta <- x$peak_meta[idx,]
-  }
-  x
-}

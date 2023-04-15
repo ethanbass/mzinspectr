@@ -10,9 +10,9 @@
 #' @return A \code{MSDIAL_alignment} object with attached metadata in the \code{
 #' $sample_meta} slot.
 #' @author Ethan Bass
-#' @export attach_metadata
+#' @export
 
-attach_metadata <- function(x, metadata, col){
+ms_attach_metadata <- function(x, metadata, col){
   if (any(grepl("tbl", class(metadata)))){
     metadata <- as.data.frame(metadata)
   }
@@ -42,6 +42,7 @@ attach_metadata <- function(x, metadata, col){
   return(x)
 }
 
+#' @noRd
 keep_order <- function(data, fn, ...) {
   col <- ".sortColumn"
   data[,col] <- 1:nrow(data)
@@ -52,6 +53,7 @@ keep_order <- function(data, fn, ...) {
   out
 }
 
+#' @noRd
 transfer_metadata <- function(new_object, old_object,
                               exclude = c('names','row.names','class','dim','dimnames')){
   a <- attributes(old_object)

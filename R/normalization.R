@@ -24,7 +24,7 @@
 #' Application in H1 NMR Metabonomics. Anal. Chem. 78, 4281-4290 (2006).
 #' @export
 
-pqn <- function(x, ref = c("median", "mean"), QC = NULL) {
+ms_normalize_pqn <- function(x, ref = c("median", "mean"), QC = NULL) {
   ref <- match.arg(ref, c("median","mean"))
   if (inherits(x, what = "msdial_alignment")){
     X <- x$tab
@@ -72,7 +72,7 @@ pqn <- function(x, ref = c("median", "mean"), QC = NULL) {
 #' according to the input.
 #' @export
 
-tsn <- function(x) {
+ms_normalize_tsn <- function(x) {
   if (inherits(x, what = "msdial_alignment")){
     X <- x$tab
   } else if (class(x) %in% c("data.frame","matrix")){
@@ -100,7 +100,7 @@ tsn <- function(x) {
 #' @return A normalized \code{msdial_alignment} object or \code{matrix},
 #' according to the input.
 #' @export
-normalize_itsd <- function(x, idx, plot_it = FALSE) {
+ms_normalize_itsd <- function(x, idx, plot_it = FALSE) {
   if (inherits(x, what = "msdial_alignment")){
     X <- x$tab
   } else if (class(x) %in% c("data.frame","matrix")){
@@ -141,7 +141,7 @@ normalize_itsd <- function(x, idx, plot_it = FALSE) {
 #' subtracted from each peak.
 #' @export
 
-subtract_blanks <- function(x, blanks.idx, blanks.pattern,
+ms_subtract_blanks <- function(x, blanks.idx, blanks.pattern,
                             what=c("mean","median"), drop = TRUE){
   if (missing(blanks.idx)){
     if (!missing(blanks.pattern)){

@@ -7,11 +7,14 @@
 #' to be considered. Defaults to 100.
 #' @param spectral_weight A number between 0 and 1 specifying the weight given.
 #' to spectral similarity versus retention index similarity. Defaults to 0.6.
-#' @param n.results How many results to return. Defaults to 10.
+#' @param n_results How many results to return. Defaults to 10.
 #' @param parallel Logical. Whether to use parallel processing. (This feature
 #' does not work on Windows).
 #' @param mc.cores How many cores to use for parallel processing? Defaults to 2.
+#' @param print Logical. Whether to print the results after each search. Defaults
+#' to FALSE.
 #' @param ris Retention indices to use.
+#' @param progress_bar Logical. Whether to display  progress bar or not.
 #' @note See \href{https://github.com/QizhiSu/mspcompiler}{mspcompiler} for help compiling
 #' an msp database.
 #' @return Returns a modified \code{msdial_alignment} object with database matches
@@ -19,9 +22,10 @@
 #' @author Ethan Bass
 #' @export
 
-search_spectra <- function(x, db, cols, ..., ri_thresh = 100, spectral_weight = 0.6,
-                           n.results=10, parallel, mc.cores = 2,  ris){
-  if (any(is.null(x$matches))){
+ms_search_spectra <- function(x, db, cols, ..., ri_thresh = 100, spectral_weight = 0.6,
+                           n_results=10, parallel, mc.cores = 2,  print = FALSE,
+                           ris, progress_bar=TRUE){
+  if (is.null(x$matches)){
     x$matches <- as.list(rep(NA, ncol(x$tab)))
     names(x$matches) <- colnames(x$tab)
   }
@@ -34,21 +38,23 @@ search_spectra <- function(x, db, cols, ..., ri_thresh = 100, spectral_weight = 
   if (missing(parallel)){
     parallel <- .Platform$OS.type != "windows"
   }
-  for (col in cols){
-    sp <- get_spectrum(x, col)
-    ri_diff <- abs(as.numeric(x$peak_meta[col, "Average.RI"]) - ris)
-    idx <- which(ri_diff < ri_thresh)
-    sp_score <- search_msp(sp, db[idx], ..., what="scores", parallel = parallel,
-                           mc.cores = mc.cores)
-    ri_score <- ri_diff[idx]/ri_thresh
-    total_score <- sp_score*spectral_weight + ri_score*(1 - spectral_weight)
-    sel <- order(total_score, decreasing=TRUE)[1:n.results]
-    results <- msp_to_dataframe(db[idx][sel])
-    results$spectral_match <- sp_score[sel]
-    results$ri_match <- ri_score[sel]
-    results$total_score <- total_score[sel]
-    x$matches[[col]] <- results
-  }
+  laplee <- laplee <- choose_apply_fnc(progress_bar = progress_bar, cl = mc.cores)
+  x$matches[cols] <- laplee(cols, function(col){
+    try({
+      sp <- ms_get_spectrum(x, col)
+      ri_diff <- abs(as.numeric(x$peak_meta[col, "Average.RI"]) - ris)
+      idx <- which(ri_diff < ri_thresh)
+      sp_score <- search_msp(sp, db[idx], ..., what="scores", parallel = FALSE)
+      ri_score <- ri_diff[idx]/ri_thresh
+      total_score <- sp_score*spectral_weight + ri_score*(1 - spectral_weight)
+      sel <- order(total_score, decreasing = TRUE)[seq_len(n_results)]
+      results <- msp_to_dataframe(db[idx][sel])
+      results$spectral_match <- sp_score[sel]
+      results$ri_match <- ri_score[sel]
+      results$total_score <- total_score[sel]
+      results
+    })
+  })
   x
 }
 
@@ -59,7 +65,7 @@ search_spectra <- function(x, db, cols, ..., ri_thresh = 100, spectral_weight = 
 #' @author Ethan Bass
 #' @export
 
-get_spectrum <- function(x, col){
+ms_get_spectrum <- function(x, col){
   spec <- tidy_eispectrum(x$peak_meta[col, "EI.spectrum"])
   spec
 }
@@ -68,19 +74,20 @@ get_spectrum <- function(x, col){
 #' @param x Spectrum, as produced by \code{\link{get_spectrum}}.
 #' @param db MSP database as list
 #' @param ... Additional arguments to \code{\link[OrgMassSpecR]{SpectrumSimilarity}}
-#' @param n.results Number of results to return
+#' @param n_results Number of results to return
 #' @param parallel Logical. Whether to use parallel processing. (This feature
 #' does not work on Windows).
 #' @param mc.cores How many cores to use for parallel processing? Defaults to 2.
 #' @param what What kind of object to return. Either \code{msdial_alignment} object,
 #'  (\code{msd}), or \code{data.frame} (\code{df}).
+#' @param progress_bar Logical. Whether to display progress bar or not.
 #' @importFrom pbapply pblapply
 #' @importFrom OrgMassSpecR SpectrumSimilarity
 #' @author Ethan Bass
-#' @export
+#' @noRd
 
-search_msp <- function(x, db, ..., n.results = 10, parallel, mc.cores = 2,
-                       what=c("msd", "df", "scores")){
+search_msp <- function(x, db, ..., n_results = 10, parallel, mc.cores = 2,
+                       what=c("msd", "df", "scores"), progress_bar = FALSE){
   what <- match.arg(what, c("msd", "df", "scores"))
   if (missing(parallel)){
     parallel <- .Platform$OS.type != "windows"
@@ -88,23 +95,64 @@ search_msp <- function(x, db, ..., n.results = 10, parallel, mc.cores = 2,
     parallel <- FALSE
     warning("Parallel processing is not currently available on Windows.")
   }
-  sim <- unlist(pblapply(seq_along(db), function(i){
-    try(OrgMassSpecR::SpectrumSimilarity(spec.top = x, spec.bottom = db[[i]]$Spectra,
-                       print.graphic = FALSE, ...))
-  }, cl = mc.cores))
+  laplee <- laplee <- choose_apply_fnc(progress_bar = progress_bar, cl = mc.cores)
+  sim <- unlist(laplee(seq_along(db), function(i){
+    db[[i]]$Spectra <- as.data.frame(apply(db[[i]]$Spectra, 2, as.numeric))
+    try(spectral_similarity(spec.top = x, spec.bottom = db[[i]]$Spectra, ...))
+  }))
   sim <- suppressWarnings(as.numeric(sim))
   if (what == "scores"){
     r <- sim
-  } else{
-  results <- do.call(rbind, db[order(sim, decreasing = TRUE)[seq_len(n.results)]])
-  r <- as.data.frame(results[,which(colnames(results)!="Spectra")])
-  r$SS <- sim[order(sim, decreasing = TRUE)[seq_len(n.results)]]
+  } else {
+    results <- do.call(rbind, db[order(sim, decreasing = TRUE)[seq_len(n_results)]])
+    r <- as.data.frame(results[,which(colnames(results)!="Spectra")])
+    r$SS <- sim[order(sim, decreasing = TRUE)[seq_len(n_results)]]
   }
   r
 }
 
-#'@noRd
+#' Convert MSP to data.frame
+#' @noRd
 msp_to_dataframe <- function(db){
-  m <- do.call(rbind,db)
-  as.data.frame(m[,-which(colnames(m)=="Spectra")])
+  x <- lapply(db, function(xx){
+    xx[sapply(xx,length) == 0] <- NA
+    xx$Spectra <- condense_eispectrum(xx$Spectra)
+    as.data.frame(xx)
+    # as.data.frame(xx[-c(which(names(xx) == "Spectra"))])
+  })
+  x<-as.data.frame(do.call(rbind,x))
+  x
+}
+
+#' Calculate spectral similarity between two peaks
+#' @noRd
+spectral_similarity <- function(spec.top, spec.bottom, t = 0.25, b = 10,
+                                xlim = c(50, 1200), x.threshold = 0){
+  colnames(spec.top) <- c("mz", "intensity")
+  spec.top$normalized <- round((spec.top$intensity/max(spec.top$intensity)) * 100)
+  spec.top <- spec.top[which(spec.top$mz >= xlim[1] & spec.top$mz <= xlim[2]),]
+  top <- spec.top[which(spec.top$normalized >= b),]
+
+  colnames(spec.bottom) <- c("mz", "intensity")
+  spec.bottom$normalized <- round((spec.bottom$intensity/max(spec.bottom$intensity)) * 100)
+  spec.bottom <- spec.bottom[which(spec.bottom$mz >= xlim[1] & spec.bottom$mz <= xlim[2]),]
+  bottom <- spec.bottom[which(spec.bottom$normalized >= b),]
+
+  for (i in 1:nrow(bottom)){
+    top[, 1][which(bottom[, 1][i] >= top[,1] - t & bottom[, 1][i] <= top[, 1] + t)] <- bottom[,1][i]
+  }
+
+  alignment <- merge(top[,-2], bottom[,-2], by = 1, all = TRUE)
+  if (length(unique(alignment[, 1])) != length(alignment[, 1]))
+    warning("the m/z tolerance is set too high")
+  alignment[, c(2, 3)][is.na(alignment[, c(2, 3)])] <- 0
+  names(alignment) <- c("mz", "intensity.top", "intensity.bottom")
+
+  if (x.threshold < 0)
+    stop("x.threshold argument must be zero or a positive number")
+  alignment <- alignment[alignment[, 1] >= x.threshold, ]
+  u <- alignment[, 2]
+  v <- alignment[, 3]
+  similarity_score <- sum(u * v) / (sqrt(sum(u^2)) * sqrt(sum(v^2)))
+  return(similarity_score)
 }

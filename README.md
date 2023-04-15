@@ -45,4 +45,7 @@ There is preliminary support for peak identification by searching a user-provide
 To compile a mass spectral database, I recommend checking out [mspcompiler](https://github.com/QizhiSu/mspcompiler).
 
 ### Visualization
+
 Spectra can be plotted using either "base R" graphics or plotly graphics using the `plot_spectrum` function, which takes an ms-dial alignment object (`x`) and a column index (`col`) as arguments. 
+
+### Citation

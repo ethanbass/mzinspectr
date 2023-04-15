@@ -9,7 +9,7 @@
 #' @author Ethan Bass
 #' @export
 
-tidy_msdial <- function(x, peaks, treatments){
+ms_tidy_msdial <- function(x, peaks, treatments){
   df <- as.data.frame(x$tab)
   if (is.numeric(peaks)){
     peaks <- colnames(df)[peaks]

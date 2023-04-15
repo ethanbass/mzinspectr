@@ -1,7 +1,7 @@
 Package: msdialreadr
 Type: Package
-Title: Tools for Reading and Analyzing MS-DIAL Alignment Files 
-Version: 0.2.0
+Title: Read and Analyze MS-DIAL Alignment Files 
+Version: 0.3.0
 Authors@R: 
     person("Ethan", "Bass", , "ethanbass@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-6175-6739"))
@@ -9,14 +9,20 @@ Maintainer: Ethan Bass <ethanbass@gmail.com>
 Description: A few functions for analyzing MSDIAL alignments in R. (Note: This package is not created or endorsed by the authors of MS-DIAL). Includes functions for feature normalization, subtraction of blanks, and mass library (msp) search.
 Imports:
     dplyr,
+    fs,
     OrgMassSpecR,
     pbapply,
+    purrr,
+    rcdk,
+    scales,
     stats,
     stringr,
     tidyr
 Suggests:
-    plotly
+    DT,
+    plotly,
+    shiny
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.3
