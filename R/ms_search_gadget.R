@@ -59,8 +59,8 @@ ms_search_gadget <- function(data){
       shiny::req(input$matches_rows_selected)
 
       # spectrum <- plot_spectrum(data, col = input$df_select)
-      ms_mirror_plot(spec1 = ms_get_spectrum(data, input$df_select),
-                  spec2 = tidy_eispectrum(data$matches[[input$df_select]][input$matches_rows_selected,"Spectra"]),
+      ms_mirror_plot(x = ms_get_spectrum(data, input$df_select),
+                  y = tidy_eispectrum(data$matches[[input$df_select]][input$matches_rows_selected,"Spectra"]),
                   type="plotly")
     })
 
