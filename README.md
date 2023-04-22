@@ -30,7 +30,7 @@ Export your alignment from MS-DIAL by selecting the `Export:Alignment Result` me
 
 ### Reading alignment into R
 
-Read your alignment into R using the `read_alignment` function, providing the path to your MS-DIAL alignment file. This will produce a list of matrices. The first element will be the actual peak table (`tab`) with the areas or heights of the features detected by MS-DIAL. The second element will contain the peak metadata returned by MS-DIAL such as retention indices, mass spectra, and any identifications done in MS-DIAL (`peak_meta`). The third element is intended to hold sample metadata (`sample_meta`) provided by the user, which can be added using the `attach_metadata` function.
+Read your alignment into R using the `ms_read_alignment` function, providing the path to your MS-DIAL alignment file. This will produce a list of matrices. The first element will be the actual peak table (`tab`) with the areas or heights of the features detected by MS-DIAL. The second element will contain the peak metadata returned by MS-DIAL such as retention indices, mass spectra, and any identifications done in MS-DIAL (`peak_meta`). The third element is intended to hold sample metadata (`sample_meta`) provided by the user, which can be added using the `attach_metadata` function.
 
 The `ms_attach_metadata` function takes three arguments: an MS-DIAL alignment object (`x`), a dataframe or matrix containing the sample metadata (`meta`), and a string specifying the column in `meta` to be matched with the names of the samples (`col`).
 
