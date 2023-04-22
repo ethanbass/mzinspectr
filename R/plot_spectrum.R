@@ -121,10 +121,13 @@ ms_mirror_plot.data.frame <- function(x, y, plot_labels = TRUE, type = c("plotly
     )
     p <- plotly::plot_ly()
     p <- plotly::add_trace(p, type="bar", x = x$mz, y = x$intensity,
-                           marker = list(line = list(width = bar_width)))
+                           marker = list(line = list(width = bar_width)),
+                           name = "target")
     p <- plotly::add_trace(p, type="bar", x = y$mz, y = y$intensity,
-                           marker = list(line = list(width = bar_width)))
-    p <- plotly::layout(p, title = layout$title, xaxis = layout$xaxis, yaxis = layout$yaxis)
+                           marker = list(line = list(width = bar_width)),
+                           name = "reference")
+    p <- plotly::layout(p, title = layout$title,
+                        xaxis = layout$xaxis, yaxis = layout$yaxis)
     if (plot_labels){
       p <- plotly::add_annotations(p, x = ~x$mz[lab1.idx],
                                    y = ~x$intensity[lab1.idx],
