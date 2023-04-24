@@ -52,4 +52,4 @@ Spectra can be plotted using either "base R" graphics or "plotly" graphics using
 
 If you use msdialreadr in published work, please cite it as follows:
 
-Bass, E. (2023). msdialreadr: Read and Analyze MS-DIAL Alignment Files (version 0.3.0).
+Bass, E. (2023). msdialreadr: Read and Analyze MS-DIAL Alignment Files (version 0.3.1).

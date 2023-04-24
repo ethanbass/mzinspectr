@@ -1,7 +1,7 @@
 Package: msdialreadr
 Type: Package
 Title: Read and Analyze MS-DIAL Alignment Files 
-Version: 0.3.0
+Version: 0.3.1
 Authors@R: 
     person("Ethan", "Bass", , "ethanbass@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-6175-6739"))
@@ -13,7 +13,6 @@ Imports:
     OrgMassSpecR,
     pbapply,
     purrr,
-    rcdk,
     scales,
     stats,
     stringr,
@@ -21,6 +20,7 @@ Imports:
 Suggests:
     DT,
     plotly,
+    rcdk,
     shiny
 License: GPL (>= 3)
 Encoding: UTF-8

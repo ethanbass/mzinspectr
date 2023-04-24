@@ -1,3 +1,8 @@
+# msdialreadr 0.3.1 dev
+
+* Make rcdk (for rendering structures in `ms_search_gadget`) suggested instead of
+a dependency.
+
 # msdialreadr 0.3.0
 
 * Added support for calling MSDIAL console app directly through the `ms_call_msdial` function.

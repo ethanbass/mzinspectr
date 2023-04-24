@@ -22,7 +22,10 @@ ms_search_spectra(
 \arguments{
 \item{x}{An \code{msdial_alignment} object.}
 
-\item{db}{MSP database as list.}
+\item{db}{MSP database. The provided object should be a nested list, where the
+sublists contain the following elements: retention indices in an element named
+\code{RI} and mass spectra in an element called \code{Spectra}. All other elements
+are optional.}
 
 \item{cols}{Index or indices of feature(s) to be identified.}
 
@@ -50,10 +53,22 @@ to FALSE.}
 }
 \value{
 Returns a modified \code{msdial_alignment} object with database matches
-in the \code{matches} slot.
+in the \code{matches} slot as a list of data frames. Each \code{data.frame}
+will contain the database matches as rows and columns corresponding to the
+elements of the database entry (e.g. "Name", "InChIKey", etc.) as well as
+match scores for spectral similarity (\code{spectral_match}), retention index
+similarity (\code{ri_match}) and the total similarity score (\code{total_score}).
 }
 \description{
-Search spectra in MSDIAL alignment against database
+This function can be used to identify peaks in your peaktable by matching them
+to a spectral database (\code{db}). It takes several arguments that can
+be used to customize the matching algorithm, including \code{ri_thresh},
+\code{spectral weight}, \code{n_results}. The retention index threshold
+(\code{ri_thresh}) is used to subset the provided database, which greatly
+improves the search speed. Only database entries with a retention index
+falling within the specified threshold will be considered. The spectral
+weight affects the weight given to spectral similarity when calculating the
+the total similarity score, which is used to rank matches.
 }
 \note{
 See \href{https://github.com/QizhiSu/mspcompiler}{mspcompiler} for help compiling

@@ -1,11 +1,11 @@
 #' Launch MS search gadget for interactive viewing of spectral matches.
 #' @name ms_search_gadget
 #' @importFrom graphics rasterImage par plot.new
-#' @importFrom rcdk view.image.2d get.depictor
 #' @param data An \code{msdial_alignment} object.
 #' @export
 
 ms_search_gadget <- function(data){
+  check_for_pkg("rcdk")
   if (is.null(data$matches)){
     stop("Matches not found! Please run `search_spectra` before calling the mass search gadget.")
   }
@@ -38,14 +38,15 @@ ms_search_gadget <- function(data){
   # Define the server
   server <- function(input, output) {
     # Render the selected dataframe as a table
-
+    # escape <- c(escape, include[which(!(include %in% colnames(data$matches[[1]])))])
+    include <- c("Name", "Formula", "RI", "Comment", "spectral_match", "ri_match", "total_score")
     output$matches <- DT::renderDT({
+      escape.idx <- which(!(colnames(data$matches[[input$df_select]]) %in% include))
+      escape = colnames(data$matches[[input$df_select]])[escape.idx]
       DT::datatable(data$matches[[input$df_select]],
                     selection=list(mode="single", selected = 1),
                 options=list(columnDefs = list(list(visible=FALSE,
-                                                    targets=c("InChIKey","Spectra", "Smiles",
-                                                              "Molecular.weight",
-                                                              "Number.of.peaks"))),
+                                                    targets=escape)),
                              dom='tip',
                              paging = TRUE,
                              pageLength = 5)) |>
