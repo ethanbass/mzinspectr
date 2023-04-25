@@ -9,8 +9,8 @@ ms_rt_to_ri(rts, RIs)
 \arguments{
 \item{rts}{A vector of retention times.}
 
-\item{RIs}{A matrix or data.frame containing carbon number or retention index
-in column one and retention times in column two.}
+\item{RIs}{A matrix or data.frame containing retention times in column one
+and retention indices in column two.}
 }
 \description{
 Convert retention times to retention indices.

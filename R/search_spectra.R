@@ -42,7 +42,7 @@
 
 ms_search_spectra <- function(x, db, cols, ..., ri_thresh = 100, spectral_weight = 0.6,
                            n_results=10, parallel, mc.cores = 2,  print = FALSE,
-                           ris, progress_bar=TRUE){
+                           ris, progress_bar = TRUE){
   if (is.null(x$matches)){
     x$matches <- as.list(rep(NA, ncol(x$tab)))
     names(x$matches) <- colnames(x$tab)

@@ -80,13 +80,25 @@ check_for_pkg <- function(pkg){
 #' Convert retention times to retention indices.
 #' @importFrom stats approx
 #' @param rts A vector of retention times.
-#' @param RIs A matrix or data.frame containing carbon number or retention index
-#' in column one and retention times in column two.
+#' @param RIs A matrix or data.frame containing retention times in column one
+#' and retention indices in column two.
 #' @export
 ms_rt_to_ri <- function(rts, RIs){
-  if (mean(nchar(RIs[,1])) == 2){
-    RIs[,1] <- RIs[,1]*100
+  if (mean(nchar(RIs[,2])) == 2){
+    RIs[,2] <- RIs[,2]*100
   }
-  round(approx(x = as.numeric(RIs[,2]), y = as.numeric(RIs[,1]),
+  round(approx(x = as.numeric(RIs[,1]), y = as.numeric(RIs[,2]),
                xout=as.numeric(rts))$y)
+}
+
+#' Convert retention times to retention indices in alignment object.
+#' @param x An \code{msdial_alignment} object.
+#' @param Ris A matrix or data.frame containing retention times in column one
+#' and retention indices in column two.
+#' @export
+
+ms_calculate_RIs <- function(x, Ris){
+  Rts <- as.numeric(x$peak_meta$Average.Rt.min.)
+  x$peak_meta$Average.RI <- ms_rt_to_ri(Rts, Ris)
+  x
 }
