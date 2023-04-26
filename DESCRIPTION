@@ -7,6 +7,8 @@ Authors@R:
            comment = c(ORCID = "0000-0002-6175-6739"))
 Maintainer: Ethan Bass <ethanbass@gmail.com>
 Description: A few functions for analyzing MSDIAL alignments in R. (Note: This package is not created or endorsed by the authors of MS-DIAL). Includes functions for feature normalization, subtraction of blanks, and mass library (msp) search.
+URL: https://github.com/ethanbass/msdialreadr
+BugReports: https://github.com/ethanbass/msdialreadr/issues
 Imports:
     dplyr,
     fs,
