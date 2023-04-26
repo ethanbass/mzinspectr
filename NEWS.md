@@ -1,7 +1,14 @@
 # msdialreadr 0.3.1 dev
 
-* Make rcdk (for rendering structures in `ms_search_gadget`) suggested instead of
+* Made rcdk (for rendering structures in `ms_search_gadget`) suggested instead of
 a dependency.
+* Simplified `ms_read_alignment` function and made corrections so that correct
+types are read in for peak metadata fields. Missing retention indices are now
+correctly entered as NAs.
+* Added error message to `search_spectra` when peak retention indices are not
+present and added option to search entire database by setting `ri_thresh` to `NULL`.
+* Corrected normalizatio functions so they now return the peak table as a
+data.frame instead of a matrix.
 
 # msdialreadr 0.3.0
 

@@ -59,9 +59,13 @@ ms_normalize_pqn <- function(x, ref = c("median", "mean"), QC = NULL) {
     Xi / median(as.numeric(Xi / mX), na.rm=TRUE)
   }))
 
+  X.norm <- as.data.frame(X.norm)
+
   if (inherits(x, what = "msdial_alignment")){
     x$tab <- X.norm
-  } else{x <- X.norm}
+  } else{
+    x <- X.norm
+  }
   x
 }
 
@@ -84,14 +88,19 @@ ms_normalize_tsn <- function(x) {
     Xi / sum(Xi, na.rm=TRUE)
   }))
 
+  X.norm <- as.data.frame(X.norm)
+
   if (inherits(x, what = "msdial_alignment")){
     x$tab <- X.norm
-  } else{x <- X.norm}
+  } else{
+    x <- X.norm
+  }
   x
 }
 
 #' Normalize by internal standard
-#' @param x An \code{msdial_alignment} object or matrix with rows as samples and features as columns.
+#' @param x An \code{msdial_alignment} object or matrix with rows as samples and
+#' features as columns.
 #' @param idx Column index of internal standard.
 #' @param plot_it Logical. Whether to plot ITSD against total peak area.
 #' @importFrom graphics abline legend plot
@@ -125,9 +134,13 @@ ms_normalize_itsd <- function(x, idx, plot_it = FALSE) {
     Xi / Xi[idx]
   }))
 
+  X.norm <- as.data.frame(X.norm)
+
   if (inherits(x, what = "msdial_alignment")){
     x$tab <- X.norm
-  } else{x <- X.norm}
+  } else{
+    x <- X.norm
+  }
   x
 }
 
@@ -172,7 +185,7 @@ ms_subtract_blanks <- function(x, blanks.idx, blanks.pattern,
       x.n <- x.n[,-zeros]
     }
   }
-
+  x.n <- as.data.frame(x.n)
   x$tab <- x.n
   x
 }

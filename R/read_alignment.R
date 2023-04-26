@@ -8,23 +8,22 @@
 #' @author Ethan Bass
 
 ms_read_alignment <- function(path){
-  x<-read.csv(path, sep = "\t",skip = 4, header = TRUE)
+  x <- read.csv(path, sep = "\t", skip = 4, header = TRUE)
   colnames(x)[(ncol(x)-1):ncol(x)] <- c("MEAN", "SD")
 
-  # invert and convert to data.frame
-  x1 <- as.data.frame(t(x))
-  rownames(x1) <- colnames(x)
+  # get peak metadata
+  meta.idx <- c(1:grep("EI.spectrum", colnames(x)), (ncol(x)-1):ncol(x))
+  peak_meta <- x[,meta.idx]
+  rownames(peak_meta) <- paste0("V", rownames(x))
+  if (all(peak_meta$Average.RI==-1)){
+    peak_meta$Average.RI <- NA
+  }
 
-  # trim peak metadata
-  meta.idx <- c(1:28, (ncol(x)-1):ncol(x))
-  peak_meta <- as.data.frame(t(x1[meta.idx,]))
+  # get peak table
+  tab <- as.data.frame(t(x[,-meta.idx]))
 
-  x2 <- x1[-meta.idx,]
-  x2 <- apply(x2, 2, as.numeric)
-  x2 <- as.data.frame(x2)
-  rownames(x2) <- rownames(x1)[-meta.idx]
-
-  structure(.Data = list(tab = x2, peak_meta = peak_meta, sample_meta = data.frame(full.name = rownames(x2))),
+  structure(.Data = list(tab = tab, peak_meta = peak_meta,
+                         sample_meta = data.frame(full.name = rownames(tab))),
             class="msdial_alignment")
 }
 

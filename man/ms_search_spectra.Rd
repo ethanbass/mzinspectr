@@ -15,7 +15,6 @@ ms_search_spectra(
   parallel,
   mc.cores = 2,
   print = FALSE,
-  ris,
   progress_bar = TRUE
 )
 }
@@ -32,7 +31,8 @@ are optional.}
 \item{...}{Additional arguments to \code{\link[OrgMassSpecR]{SpectrumSimilarity}}.}
 
 \item{ri_thresh}{Maximum difference between retention indices for a match.
-to be considered. Defaults to 100.}
+to be considered. Defaults to 100. Use \code{NULL} to search database without
+filtering by retention time (this will take a long time for large databases).}
 
 \item{spectral_weight}{A number between 0 and 1 specifying the weight given.
 to spectral similarity versus retention index similarity. Defaults to 0.6.}
@@ -47,9 +47,7 @@ does not work on Windows).}
 \item{print}{Logical. Whether to print the results after each search. Defaults
 to FALSE.}
 
-\item{ris}{Retention indices to use.}
-
-\item{progress_bar}{Logical. Whether to display  progress bar or not.}
+\item{progress_bar}{Logical. Whether to display progress bar or not.}
 }
 \value{
 Returns a modified \code{msdial_alignment} object with database matches

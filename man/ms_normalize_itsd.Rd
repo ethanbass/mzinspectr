@@ -7,7 +7,8 @@
 ms_normalize_itsd(x, idx, plot_it = FALSE)
 }
 \arguments{
-\item{x}{An \code{msdial_alignment} object or matrix with rows as samples and features as columns.}
+\item{x}{An \code{msdial_alignment} object or matrix with rows as samples and
+features as columns.}
 
 \item{idx}{Column index of internal standard.}
 

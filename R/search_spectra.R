@@ -18,7 +18,8 @@
 #' @param cols Index or indices of feature(s) to be identified.
 #' @param ... Additional arguments to \code{\link[OrgMassSpecR]{SpectrumSimilarity}}.
 #' @param ri_thresh Maximum difference between retention indices for a match.
-#' to be considered. Defaults to 100.
+#' to be considered. Defaults to 100. Use \code{NULL} to search database without
+#' filtering by retention time (this will take a long time for large databases).
 #' @param spectral_weight A number between 0 and 1 specifying the weight given.
 #' to spectral similarity versus retention index similarity. Defaults to 0.6.
 #' @param n_results How many results to return. Defaults to 10.
@@ -27,8 +28,7 @@
 #' @param mc.cores How many cores to use for parallel processing? Defaults to 2.
 #' @param print Logical. Whether to print the results after each search. Defaults
 #' to FALSE.
-#' @param ris Retention indices to use.
-#' @param progress_bar Logical. Whether to display  progress bar or not.
+#' @param progress_bar Logical. Whether to display progress bar or not.
 #' @note See \href{https://github.com/QizhiSu/mspcompiler}{mspcompiler} for help compiling
 #' an msp database.
 #' @return Returns a modified \code{msdial_alignment} object with database matches
@@ -42,14 +42,16 @@
 
 ms_search_spectra <- function(x, db, cols, ..., ri_thresh = 100, spectral_weight = 0.6,
                            n_results=10, parallel, mc.cores = 2,  print = FALSE,
-                           ris, progress_bar = TRUE){
+                           progress_bar = TRUE){
+  if (!is.null(ri_thresh) && all(is.na(x$peak_meta$Average.RI))){
+    stop(paste("Retention indices are not present. Please add retention indices using \n \t",
+               sQuote("ms_calculate_RIs"), "before proceeding or set", sQuote("ri_thresh = NULL"),"."))
+  }
   if (is.null(x$matches)){
     x$matches <- as.list(rep(NA, ncol(x$tab)))
     names(x$matches) <- colnames(x$tab)
   }
-  if (missing(ris)){
-    ris <- sapply(db, function(x) x$RI)
-  }
+  ris <- sapply(db, function(x) x$RI)
   if (missing(cols)){
     cols <- seq_len(ncol(x$tab))
   }
@@ -60,9 +62,13 @@ ms_search_spectra <- function(x, db, cols, ..., ri_thresh = 100, spectral_weight
   x$matches[cols] <- laplee(cols, function(col){
     try({
       sp <- ms_get_spectrum(x, col)
-      ri_diff <- abs(as.numeric(x$peak_meta[col, "Average.RI"]) - ris)
-      idx <- which(ri_diff < ri_thresh)
-      sp_score <- search_msp(sp, db[idx], ..., what="scores", parallel = FALSE)
+      if (!is.null(ri_thresh)){
+        ri_diff <- abs(as.numeric(x$peak_meta[col, "Average.RI"]) - ris)
+        idx <- which(ri_diff < ri_thresh)
+      } else{
+        idx <- seq_along(db)
+      }
+      sp_score <- search_msp(sp, db[idx], ..., what = "scores", parallel = FALSE)
       ri_score <- ri_diff[idx]/ri_thresh
       total_score <- sp_score*spectral_weight + ri_score*(1 - spectral_weight)
       sel <- order(total_score, decreasing = TRUE)[seq_len(n_results)]
