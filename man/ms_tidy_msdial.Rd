@@ -4,14 +4,20 @@
 \alias{ms_tidy_msdial}
 \title{Convert peak to tidy format for plotting}
 \usage{
-ms_tidy_msdial(x, peaks, treatments)
+ms_tidy_msdial(x, peaks, metadata, treatments)
 }
 \arguments{
-\item{x}{An MS dial alignment object}
+\item{x}{An MS dial alignment object.}
 
-\item{peaks}{Peaks to include in tidy output}
+\item{peaks}{A character vector specifying the peaks to include in tidy output.
+If the character vector is named, the names of the vector elements will be
+used in place of the original peak names.}
 
-\item{treatments}{Treatments to include in tidy output}
+\item{metadata}{A character vector specifying the metadata to include in
+the tidy output.}
+
+\item{treatments}{This argument is deprecated as of version 0.3.2. It is
+synonymous with the new metadata argument which should be used instead.}
 }
 \value{
 If \code{export} is \code{TRUE}, returns spectrum as \code{data.frame}.

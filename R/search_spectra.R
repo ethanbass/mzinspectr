@@ -58,7 +58,7 @@ ms_search_spectra <- function(x, db, cols, ..., ri_thresh = 100, spectral_weight
   if (missing(parallel)){
     parallel <- .Platform$OS.type != "windows"
   }
-  laplee <- laplee <- choose_apply_fnc(progress_bar = progress_bar, cl = mc.cores)
+  laplee <- choose_apply_fnc(progress_bar = progress_bar, cl = mc.cores)
   x$matches[cols] <- laplee(cols, function(col){
     try({
       sp <- ms_get_spectrum(x, col)
@@ -71,7 +71,7 @@ ms_search_spectra <- function(x, db, cols, ..., ri_thresh = 100, spectral_weight
       sp_score <- search_msp(sp, db[idx], ..., what = "scores", parallel = FALSE)
       ri_score <- ri_diff[idx]/ri_thresh
       total_score <- sp_score*spectral_weight + ri_score*(1 - spectral_weight)
-      sel <- order(total_score, decreasing = TRUE)[seq_len(n_results)]
+      sel <- order(total_score, decreasing = TRUE, method="radix")[seq_len(n_results)]
       results <- msp_to_dataframe(db[idx][sel])
       results$spectral_match <- sp_score[sel]
       results$ri_match <- ri_score[sel]
@@ -119,8 +119,8 @@ search_msp <- function(x, db, ..., n_results = 10, parallel, mc.cores = 2,
     parallel <- FALSE
     warning("Parallel processing is not currently available on Windows.")
   }
-  laplee <- laplee <- choose_apply_fnc(progress_bar = progress_bar, cl = mc.cores)
-  sim <- unlist(laplee(seq_along(db), function(i){
+  laplee <- choose_apply_fnc(progress_bar = progress_bar, cl = mc.cores)
+  sim <- unlist(lapply(seq_along(db), function(i){
     db[[i]]$Spectra <- as.data.frame(apply(db[[i]]$Spectra, 2, as.numeric))
     try(spectral_similarity(spec.top = x, spec.bottom = db[[i]]$Spectra, ...))
   }))
@@ -149,6 +149,11 @@ msp_to_dataframe <- function(db){
 }
 
 #' Calculate spectral similarity between two peaks
+#' This function is adapted from the \code{SpectrumSimilarity} function in
+#' [OrgMassSpecR](https://orgmassspec.github.io/) but was optimized for increased
+#' speed.
+#' @author Nathan G. Dodder
+#' @author Ethan Bass
 #' @noRd
 spectral_similarity <- function(spec.top, spec.bottom, t = 0.25, b = 10,
                                 xlim = c(50, 1200), x.threshold = 0){

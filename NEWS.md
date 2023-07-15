@@ -1,3 +1,8 @@
+# msdialreadr 0.3.2
+
+* Added option to for renaming peaks via `ms_tidy_msdial` by providing a named character vector.
+* Deprecated `treatment` argument in `ms_tidy_msdial`, replacing it with new `metadata` argument.
+
 # msdialreadr 0.3.1
 
 * Made rcdk (for rendering structures in `ms_search_gadget`) suggested instead of

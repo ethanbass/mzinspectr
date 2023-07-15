@@ -65,10 +65,15 @@ choose_apply_fnc <- function(progress_bar, parallel = FALSE, cl = NULL){
   fn
 }
 
-#' Check for required package
+
+#' Check for suggested package
+#' @author Ethan Bass
 #' @noRd
-check_for_pkg <- function(pkg){
-  if (!requireNamespace(pkg, quietly = TRUE)) {
+check_for_pkg <- function(pkg, return_boolean = FALSE){
+  pkg_exists <- requireNamespace(pkg, quietly = TRUE)
+  if (return_boolean){
+    return(pkg_exists)
+  } else if (!pkg_exists) {
     stop(paste(
       "Package", sQuote(pkg), "must be installed to perform this action:
           try", paste0("`install.packages('", pkg, "')`.")),

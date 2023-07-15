@@ -5,10 +5,10 @@ citEntry(
   title    = "msdialreadr: Read and Analyze MS-DIAL Alignment Files",
   author   = "Ethan Bass",
   year     = "2023",
-  note     = "version 0.3.1",
+  note     = "version 0.3.2",
   url      = "",
   doi      = "",
   textVersion = paste("Bass, E. (2023).",
-        "msdialreadr: Read and Analyze MS-DIAL Alignment Files (version 0.3.1)."
+        "msdialreadr: Read and Analyze MS-DIAL Alignment Files (version 0.3.2)."
         )
   )
