@@ -2,8 +2,7 @@
 % Please edit documentation in R/normalization.R
 \name{ms_normalize_tsn}
 \alias{ms_normalize_tsn}
-\title{Total sum normalization
-Divides each row by the sum of the features in that row.}
+\title{Total sum normalization}
 \usage{
 ms_normalize_tsn(x)
 }
@@ -15,6 +14,5 @@ A normalized \code{msdial_alignment} object or \code{matrix},
 according to the input.
 }
 \description{
-Total sum normalization
 Divides each row by the sum of the features in that row.
 }

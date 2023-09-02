@@ -1,6 +1,6 @@
 #' @title Probabilistic Quotient Normalization
 #'
-#' @description Performs Probabilistic Quotient Normalization
+#' @description Performs Probabilistic Quotient Normalization on peak table.
 #'
 #' @param x An \code{msdial_alignment} object or matrix with rows as samples and features as columns.
 #' @param ref Reference for normalization: either \code{median} (default) to use
@@ -70,7 +70,9 @@ ms_normalize_pqn <- function(x, ref = c("median", "mean"), QC = NULL) {
 }
 
 #' Total sum normalization
+#'
 #' Divides each row by the sum of the features in that row.
+#'
 #' @param x An \code{msdial_alignment} object or matrix with rows as samples and features as columns.
 #' @return A normalized \code{msdial_alignment} object or \code{matrix},
 #' according to the input.
@@ -98,7 +100,10 @@ ms_normalize_tsn <- function(x) {
   x
 }
 
-#' Normalize by internal standard
+#' Internal standard normalization
+#'
+#' Normalize by internal standard.
+#'
 #' @param x An \code{msdial_alignment} object or matrix with rows as samples and
 #' features as columns.
 #' @param idx Column index of internal standard.

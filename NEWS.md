@@ -1,3 +1,9 @@
+# msdialreadr 0.3.3
+
+* Fixed bug `ms_tidy_msdial` when renaming peaks that are out of order.
+* Renamed `ms_tidy_msdial` to `ms_reshape_peaktable`. The old function name is now deprecated.
+* Made some improvements to documentation.
+
 # msdialreadr 0.3.2
 
 * Added option to for renaming peaks via `ms_tidy_msdial` by providing a named character vector.

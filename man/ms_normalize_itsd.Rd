@@ -2,7 +2,7 @@
 % Please edit documentation in R/normalization.R
 \name{ms_normalize_itsd}
 \alias{ms_normalize_itsd}
-\title{Normalize by internal standard}
+\title{Internal standard normalization}
 \usage{
 ms_normalize_itsd(x, idx, plot_it = FALSE)
 }
@@ -19,7 +19,7 @@ A normalized \code{msdial_alignment} object or \code{matrix},
 according to the input.
 }
 \description{
-Normalize by internal standard
+Normalize by internal standard.
 }
 \author{
 Ethan Bass

@@ -21,7 +21,7 @@ A normalized \code{msdial_alignment} object or \code{matrix},
 according to the input.
 }
 \description{
-Performs Probabilistic Quotient Normalization
+Performs Probabilistic Quotient Normalization on peak table.
 }
 \note{
 Adapted from the \href{https://github.com/ricoderks/Rcpm}{Rcpm} package
