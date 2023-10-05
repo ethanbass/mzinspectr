@@ -1,14 +1,14 @@
-Package: msdialreadr
+Package: mzinspectr
 Type: Package
 Title: Read and Analyze MS-DIAL Alignment Files 
-Version: 0.3.3
+Version: 0.4.0
 Authors@R: 
     person("Ethan", "Bass", , "ethanbass@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-6175-6739"))
 Maintainer: Ethan Bass <ethanbass@gmail.com>
-Description: A few functions for analyzing MSDIAL alignments in R. (Note: This package is not created or endorsed by the authors of MS-DIAL). Includes functions for feature normalization, subtraction of blanks, and mass library (msp) search.
-URL: https://github.com/ethanbass/msdialreadr
-BugReports: https://github.com/ethanbass/msdialreadr/issues
+Description: A few functions for analyzing MSDIAL alignments in R. Includes functions for feature normalization, subtraction of blanks, and mass library (msp) search.
+URL: https://github.com/ethanbass/mzinspectr
+BugReports: https://github.com/ethanbass/mzinspectr/issues
 Imports:
     dplyr,
     fs,

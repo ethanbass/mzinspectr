@@ -1,3 +1,7 @@
+# mzinspectr 0.4.0
+
+* Changed name of package to "mzinspectr".
+
 # msdialreadr 0.3.3
 
 * Fixed bug `ms_tidy_msdial` when renaming peaks that are out of order.

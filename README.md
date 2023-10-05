@@ -1,6 +1,6 @@
-# msdialreadr
+# mzinspectr
 <!-- badges: start -->
-  [![msdialreadr status badge](https://ethanbass.r-universe.dev/badges/msdialreadr)](https://ethanbass.r-universe.dev)
+  [![mzinspectr status badge](https://ethanbass.r-universe.dev/badges/mzinspectr)](https://ethanbass.r-universe.dev)
   [![stability-experimental](https://img.shields.io/badge/stability-experimental-orange.svg)](https://github.com/emersion/stability-badges#experimental)
 <!-- badges: end -->
    
@@ -10,17 +10,17 @@ A few functions for analyzing [MS-DIAL](http://prime.psc.riken.jp/compms/msdial/
 
 ### Installation
 
-Currently it's recommended to install msdialreadr directly from GitHub.
+Currently it's recommended to install mzinspectr directly from GitHub.
 
 ```
 install.packages("devtools")
-devtools::install_github("https://github.com/ethanbass/msdialreadr/")
+devtools::install_github("https://github.com/ethanbass/mzinspectr/")
 ```
 
 It can also be installed via [R Universe](https://ethanbass.r-universe.dev/):
 
 ```
-install.packages("msdialreadr", repos="https://ethanbass.r-universe.dev/", type="source")
+install.packages("mzinspectr", repos="https://ethanbass.r-universe.dev/", type="source")
 ```
 
 
@@ -50,6 +50,6 @@ Spectra can be plotted using either "base R" graphics or "plotly" graphics using
 
 ### Citation
 
-If you use msdialreadr in published work, please cite it as follows:
+If you use mzinspectr in published work, please cite it as follows:
 
-Bass, E. (2023). msdialreadr: Read and Analyze MS-DIAL Alignment Files (version 0.3.3).
+Bass, E. (2023). mzinspectr: Read and Analyze MS-DIAL Alignment Files (version 0.4.0).

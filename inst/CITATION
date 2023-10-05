@@ -1,14 +1,14 @@
-citHeader("To cite msdialreadr in publications, please use:")
+citHeader("To cite mzinspectr in publications, please use:")
 
 citEntry(
   entry    = "manual",
-  title    = "msdialreadr: Read and Analyze MS-DIAL Alignment Files",
+  title    = "mzinspectr: Read and Analyze MS-DIAL Alignment Files",
   author   = "Ethan Bass",
   year     = "2023",
-  note     = "version 0.3.3",
+  note     = "version 0.4.0",
   url      = "",
   doi      = "",
   textVersion = paste("Bass, E. (2023).",
-        "msdialreadr: Read and Analyze MS-DIAL Alignment Files (version 0.3.3)."
+        "mzinspectr: Read and Analyze MS-DIAL Alignment Files (version 0.4.0)."
         )
   )
