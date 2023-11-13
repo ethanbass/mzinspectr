@@ -1,12 +1,12 @@
 Package: mzinspectr
 Type: Package
-Title: Read and Analyze MS-DIAL Alignment Files 
+Title: Read and Analyze Mass Spectrometry Alignment Files 
 Version: 0.4.0
 Authors@R: 
     person("Ethan", "Bass", , "ethanbass@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-6175-6739"))
 Maintainer: Ethan Bass <ethanbass@gmail.com>
-Description: A few functions for analyzing MSDIAL alignments in R. Includes functions for feature normalization, subtraction of blanks, and mass library (msp) search.
+Description: A few functions for analyzing MS-DIAL alignments in R. Includes functions for feature normalization, subtraction of blanks, and mass library (msp) search.
 URL: https://github.com/ethanbass/mzinspectr
 BugReports: https://github.com/ethanbass/mzinspectr/issues
 Imports:
