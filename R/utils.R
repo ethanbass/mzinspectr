@@ -39,8 +39,9 @@ ms_find_peak <- function(x, rt, mz, rt.tol = .01, mz.tol = .05, plot_it = TRUE){
     pks2 <- which(abs(mz - as.numeric(x$peak_meta[,"Quant.mass"])) < mz.tol)
   } else{pks2 <- pks}
   pks <- intersect(pks1, pks2)
+  names(pks) <- colnames(x$tab)[pks]
   if (plot_it)
-    for (pk in pks){
+    for (pk in names(pks)){
       ms_plot_spectrum(x, pk, type = "base")
     }
   pks

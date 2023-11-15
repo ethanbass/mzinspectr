@@ -1,9 +1,10 @@
 #' Plot mass spectrum of peak given by \code{col}.
-#' @param x MS dial alignment object
-#' @param col Spectrum to plot
+#' @param x An alignment object.
+#' @param col Spectrum to plot.
 #' @param plot_labels Logical. Whether to plot labels or not.
 #' @param lab_int Labels will be plotted above the specified proportion of the
 #' largest ion.
+#' @param title Logical. Whether to plot title. Defaults to TRUE.
 #' @param type What kind of plot to produce. Either base R (\code{base}) or
 #' plotly (\code{plotly})
 #' @param scale Logical. Whether to scale mass spectrum. Defaults to FALSE.
@@ -17,8 +18,8 @@
 #' @export
 
 ms_plot_spectrum <- function(x, col, plot_labels = TRUE, lab_int = 0.2,
-                          type = c("plotly", "base"), scale = FALSE,
-                          bar_width = 1, digits = 1, ...){
+                             title = TRUE, type = c("plotly", "base"),
+                             scale = FALSE, bar_width = 1, digits = 1, ...){
   if (inherits(x,"msdial_alignment")){
     xx <- x$peak_meta
   } else if (inherits(x, "data.frame") && "EI.spectrum" %in% colnames(x)){
@@ -30,8 +31,13 @@ ms_plot_spectrum <- function(x, col, plot_labels = TRUE, lab_int = 0.2,
     spec$intensity <- scales::rescale(spec$intensity)
   }
   lab.idx <- which(spec$intensity > lab_int*max(spec$intensity))
+  idx <- ifelse(!is.na(x$peak_meta[col,"Average.RI"]),
+                paste0("RI: ", x$peak_meta[col,"Average.RI"]),
+                paste0("RT: ", x$peak_meta[col,"Average.Rt.min."])
+  )
+  title <- ifelse(title, paste(col, idx, sep = "; "), "")
   if (type == "base"){
-    plot(spec, type="h")
+    plot(spec, type = "h", main = title)
     if (plot_labels){
       text(spec$mz[lab.idx],
            spec$intensity[lab.idx],
@@ -40,6 +46,7 @@ ms_plot_spectrum <- function(x, col, plot_labels = TRUE, lab_int = 0.2,
   } else if (type == "plotly"){
     check_for_pkg("plotly")
     layout <- list(
+      title = list(text = title),
       xaxis = list(title = "m/z"),
       yaxis = list(title = "Ion Intensity")
     )

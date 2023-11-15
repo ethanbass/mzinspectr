@@ -9,6 +9,7 @@ ms_plot_spectrum(
   col,
   plot_labels = TRUE,
   lab_int = 0.2,
+  title = TRUE,
   type = c("plotly", "base"),
   scale = FALSE,
   bar_width = 1,
@@ -17,14 +18,16 @@ ms_plot_spectrum(
 )
 }
 \arguments{
-\item{x}{MS dial alignment object}
+\item{x}{An alignment object.}
 
-\item{col}{Spectrum to plot}
+\item{col}{Spectrum to plot.}
 
 \item{plot_labels}{Logical. Whether to plot labels or not.}
 
 \item{lab_int}{Labels will be plotted above the specified proportion of the
 largest ion.}
+
+\item{title}{Logical. Whether to plot title. Defaults to TRUE.}
 
 \item{type}{What kind of plot to produce. Either base R (\code{base}) or
 plotly (\code{plotly})}

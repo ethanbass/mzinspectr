@@ -1,7 +1,8 @@
 # mzinspectr 0.4.0
 
 * Changed name of package to "mzinspectr".
-* Updated `ms_filter_alignment` so it filters matches if columns are removed from the peak table.
+* Updated `ms_filter_alignment` so it filters matches when removing columns from the peak table.
+* Added titles to mass spectra plots with peak name and retention index or time.
 
 # msdialreadr 0.3.3
 
