@@ -9,9 +9,10 @@ ms_filter_alignment(x, idx, what = c("rows", "cols"), inverse = FALSE)
 \arguments{
 \item{x}{An \code{msdial_alignment} object or matrix with rows as samples and features as columns.}
 
-\item{idx}{Indices to be retained}
+\item{idx}{Indices to be retained or excluded according to the value of \code{inverse}.}
 
-\item{what}{Which dimension to filter on. Either \code{rows} or columns (\code{cols}).}
+\item{what}{Which dimension to filter on. Either (\code{rows}) or columns
+(\code{cols}).}
 
 \item{inverse}{Whether to retain (default) or remove the specified columns.}
 }

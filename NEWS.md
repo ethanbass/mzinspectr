@@ -1,6 +1,7 @@
 # mzinspectr 0.4.0
 
 * Changed name of package to "mzinspectr".
+* Updated `ms_filter_alignment` so it filters matches if columns are removed from the peak table.
 
 # msdialreadr 0.3.3
 

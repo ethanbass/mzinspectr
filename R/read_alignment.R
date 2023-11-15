@@ -30,13 +30,14 @@ ms_read_alignment <- function(path){
 
 #' Filter alignment by provided indices.
 #' @param x An \code{msdial_alignment} object or matrix with rows as samples and features as columns.
-#' @param idx Indices to be retained
-#' @param what Which dimension to filter on. Either \code{rows} or columns (\code{cols}).
+#' @param idx Indices to be retained or excluded according to the value of \code{inverse}.
+#' @param what Which dimension to filter on. Either (\code{rows}) or columns
+#' (\code{cols}).
 #' @param inverse Whether to retain (default) or remove the specified columns.
 #' @author Ethan Bass
 #' @export
 ms_filter_alignment <- function(x, idx, what=c("rows","cols"), inverse = FALSE){
-  what <- match.arg(what, c("rows","cols"))
+  what <- match.arg(what, c("rows", "cols"))
   if (inverse){
     idx <- -idx
   }
@@ -46,6 +47,9 @@ ms_filter_alignment <- function(x, idx, what=c("rows","cols"), inverse = FALSE){
   } else if (what == "cols"){
     x$tab <- x$tab[,idx]
     x$peak_meta <- x$peak_meta[idx,]
+    if (!is.null(x$matches)){
+      x$matches <- x$matches[idx]
+    }
   }
   x
 }
