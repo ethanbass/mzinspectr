@@ -1,14 +1,15 @@
 #' Search spectra in MSDIAL alignment against database
 #'
-#' This function can be used to identify peaks in your peaktable by matching them
+#' This function can be used to identify peaks in a peak table by matching them
 #' to a spectral database (\code{db}). It takes several arguments that can
 #' be used to customize the matching algorithm, including \code{ri_thresh},
 #' \code{spectral weight}, \code{n_results}. The retention index threshold
 #' (\code{ri_thresh}) is used to subset the provided database, which greatly
 #' improves the search speed. Only database entries with a retention index
 #' falling within the specified threshold will be considered. The spectral
-#' weight affects the weight given to spectral similarity when calculating the
-#' the total similarity score, which is used to rank matches.
+#' weight affects the weight given to spectral similarity (versus retention
+#' index similarity) when calculating the the total similarity score, which is
+#' used to rank matches.
 #'
 #' @param x An \code{msdial_alignment} object.
 #' @param db MSP database. The provided object should be a nested list, where the
@@ -62,16 +63,18 @@ ms_search_spectra <- function(x, db, cols, ..., ri_thresh = 100, spectral_weight
   x$matches[cols] <- laplee(cols, function(col){
     try({
       sp <- ms_get_spectrum(x, col)
+      target_ri <- as.numeric(x$peak_meta[col, "Average.RI"])
       if (!is.null(ri_thresh)){
-        ri_diff <- abs(as.numeric(x$peak_meta[col, "Average.RI"]) - ris)
+        ri_diff <- abs(target_ri - ris)
         idx <- which(ri_diff < ri_thresh)
       } else{
         idx <- seq_along(db)
       }
+      # this is still slow
       sp_score <- search_msp(sp, db[idx], ..., what = "scores", parallel = FALSE)
-      ri_score <- ri_diff[idx]/ri_thresh
+      ri_score <- 1 - ri_diff[idx]/target_ri
       total_score <- sp_score*spectral_weight + ri_score*(1 - spectral_weight)
-      sel <- order(total_score, decreasing = TRUE, method="radix")[seq_len(n_results)]
+      sel <- order(total_score, decreasing = TRUE, method = "radix")[seq_len(n_results)]
       results <- msp_to_dataframe(db[idx][sel])
       results$spectral_match <- sp_score[sel]
       results$ri_match <- ri_score[sel]
@@ -129,7 +132,7 @@ search_msp <- function(x, db, ..., n_results = 10, parallel, mc.cores = 2,
     r <- sim
   } else {
     results <- do.call(rbind, db[order(sim, decreasing = TRUE)[seq_len(n_results)]])
-    r <- as.data.frame(results[,which(colnames(results)!="Spectra")])
+    r <- as.data.frame(results[,which(colnames(results) != "Spectra")])
     r$SS <- sim[order(sim, decreasing = TRUE)[seq_len(n_results)]]
   }
   r
@@ -142,19 +145,31 @@ msp_to_dataframe <- function(db){
     xx[sapply(xx,length) == 0] <- NA
     xx$Spectra <- condense_eispectrum(xx$Spectra)
     as.data.frame(xx)
-    # as.data.frame(xx[-c(which(names(xx) == "Spectra"))])
   })
-  x<-as.data.frame(do.call(rbind,x))
+  x <- as.data.frame(do.call(rbind,x))
   x
 }
 
 #' Calculate spectral similarity between two peaks
 #' This function is adapted from the \code{SpectrumSimilarity} function in
-#' [OrgMassSpecR](https://orgmassspec.github.io/) but was optimized for increased
-#' speed.
+#' [OrgMassSpecR](https://orgmassspec.github.io/) where it is licensed under
+#' BSD-2 (© 2011-2017, Nathan Dodder). The function was refactored here for
+#' increased speed.
+#' @param spec.top data frame containing the experimental spectrum's peak list
+#' with the m/z values in the first column and corresponding intensities in the
+#' second.
+#' @param spec.bottom data frame containing the reference spectrum's peak list
+#' with the m/z values in the first column and corresponding intensities in the
+#' second.
+#' @param t numeric value specifying the tolerance used to align the m/z values
+#' of the two spectra.
+#' @param b numeric value specifying the baseline threshold for peak
+#' identification. Expressed as a percent of the maximum intensity.
+#' @param xlim numeric vector of length 2, defining the beginning and ending
+#' values of the x-axis.
+#' @param x.threshold
 #' @author Nathan G. Dodder
 #' @author Ethan Bass
-#' @noRd
 spectral_similarity <- function(spec.top, spec.bottom, t = 0.25, b = 10,
                                 xlim = c(50, 1200), x.threshold = 0){
   colnames(spec.top) <- c("mz", "intensity")

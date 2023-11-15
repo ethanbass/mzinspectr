@@ -3,6 +3,7 @@
 * Changed name of package to "mzinspectr".
 * Updated `ms_filter_alignment` so it filters matches when removing columns from the peak table.
 * Added titles to mass spectra plots with peak name and retention index or time.
+* Fixed bug in retention index matching algorithm for `ms_search_spectra` function.
 
 # msdialreadr 0.3.3
 
