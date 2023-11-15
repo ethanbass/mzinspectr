@@ -4,13 +4,11 @@
   [![stability-experimental](https://img.shields.io/badge/stability-experimental-orange.svg)](https://github.com/emersion/stability-badges#experimental)
 <!-- badges: end -->
    
-A few functions for analyzing [MS-DIAL](http://prime.psc.riken.jp/compms/msdial/main.html) alignments in R.
-
-**Note**: This package is not created or endorsed by the creators of MS-DIAL.
+A few functions for analyzing mass spectrometry alignments in R. Currently, MS-DIAL `.txt` alignment files are supported.
 
 ### Installation
 
-Currently it's recommended to install mzinspectr directly from GitHub.
+It's recommended to install mzinspectr directly from GitHub.
 
 ```
 install.packages("devtools")
@@ -23,10 +21,9 @@ It can also be installed via [R Universe](https://ethanbass.r-universe.dev/):
 install.packages("mzinspectr", repos="https://ethanbass.r-universe.dev/", type="source")
 ```
 
+### Exporting alignments from MS-DIAL.
 
-### Exporting your alignment
-
-Export your alignment from MS-DIAL by selecting the `Export:Alignment Result` menu.
+Export your alignment from MS-DIAL by selecting the `Export:Alignment Result` menu. Select Area or Height as appropriate.
 
 ### Reading alignment into R
 
