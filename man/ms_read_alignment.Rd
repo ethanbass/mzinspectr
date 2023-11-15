@@ -4,10 +4,13 @@
 \alias{ms_read_alignment}
 \title{Read MSDIAL alignment file}
 \usage{
-ms_read_alignment(path)
+ms_read_alignment(path, format = c("msdial"))
 }
 \arguments{
-\item{path}{Path to MS dial alignment file}
+\item{path}{Path to mass spectrometry alignment file.}
+
+\item{format}{The format of the provided alignment file. Currently, only
+MS-DIAL '.txt' files are supported (\code{msdial}).}
 }
 \value{
 Returns \code{msdial_alignment} object. A list of 3 data.frames,

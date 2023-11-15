@@ -2,7 +2,7 @@
 % Please edit documentation in R/call_msdial.R
 \name{ms_call_msdial}
 \alias{ms_call_msdial}
-\title{Call MSDIAL console app
+\title{Call MS-DIAL console app
 For help configuring the MSDIAL console app on mac OSX or linux, please see
 the \href{https://github.com/Jiung-Wen/msdial}{instructions} helpfully
 compiled by \href{https://github.com/Jiung-Wen/}{Jiung-Wen Chen}.}
@@ -37,7 +37,7 @@ ms_call_msdial(
 Returns MSDIAL alignment.
 }
 \description{
-Call MSDIAL console app
+Call MS-DIAL console app
 For help configuring the MSDIAL console app on mac OSX or linux, please see
 the \href{https://github.com/Jiung-Wen/msdial}{instructions} helpfully
 compiled by \href{https://github.com/Jiung-Wen/}{Jiung-Wen Chen}.

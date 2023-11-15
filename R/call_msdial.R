@@ -1,4 +1,4 @@
-#' Call MSDIAL console app
+#' Call MS-DIAL console app
 #' For help configuring the MSDIAL console app on mac OSX or linux, please see
 #' the \href{https://github.com/Jiung-Wen/msdial}{instructions} helpfully
 #' compiled by \href{https://github.com/Jiung-Wen/}{Jiung-Wen Chen}.
@@ -57,7 +57,7 @@ ms_call_msdial <- function(system, path_in, path_out, method, settings, p=FALSE,
 }
 
 
-#' Configure shell script to call MSDIAL console app
+#' Configure shell script to call MS-DIAL console app
 #'
 #' @name configure_msdial
 #' @param check Logical.

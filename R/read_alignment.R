@@ -1,5 +1,7 @@
 #' Read MSDIAL alignment file
-#' @param path Path to MS dial alignment file
+#' @param path Path to mass spectrometry alignment file.
+#' @param format The format of the provided alignment file. Currently, only
+#' MS-DIAL '.txt' files are supported (\code{msdial}).
 #' @importFrom utils read.csv
 #' @return Returns \code{msdial_alignment} object. A list of 3 data.frames,
 #' containing peak data (\code{tab}), peak metadata (\code{peak_meta}) and
@@ -7,7 +9,8 @@
 #' @export
 #' @author Ethan Bass
 
-ms_read_alignment <- function(path){
+ms_read_alignment <- function(path, format = c("msdial")){
+  format <- match.arg(format, c("msdial"))
   x <- read.csv(path, sep = "\t", skip = 4, header = TRUE)
   colnames(x)[(ncol(x)-1):ncol(x)] <- c("MEAN", "SD")
 
@@ -24,7 +27,7 @@ ms_read_alignment <- function(path){
 
   structure(.Data = list(tab = tab, peak_meta = peak_meta,
                          sample_meta = data.frame(full.name = rownames(tab))),
-            class="msdial_alignment")
+            class = "msdial_alignment")
 }
 
 
