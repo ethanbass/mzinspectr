@@ -8,18 +8,18 @@
 ms_attach_metadata(x, metadata, col)
 }
 \arguments{
-\item{x}{An `MSDIAL_alignment` object.}
+\item{x}{A \code{ms_alignment} object.}
 
 \item{metadata}{A `data.frame` containing the sample metadata.}
 
 \item{col}{The name of the column containing the sample names.}
 }
 \value{
-A \code{MSDIAL_alignment} object with attached metadata in the \code{
+A \code{ms_alignment} object with attached metadata in the \code{
 $sample_meta} slot.
 }
 \description{
-Attaches experimental metadata to `MSDIAL_alignment` object. One of the columns in
+Attaches experimental metadata to `ms_alignment` object. One of the columns in
 the supplied metadata must match exactly the row names of the peak table.
 }
 \author{

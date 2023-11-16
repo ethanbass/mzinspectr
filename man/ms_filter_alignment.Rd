@@ -7,7 +7,7 @@
 ms_filter_alignment(x, idx, what = c("rows", "cols"), inverse = FALSE)
 }
 \arguments{
-\item{x}{An \code{msdial_alignment} object or matrix with rows as samples and features as columns.}
+\item{x}{An \code{ms_alignment} object or matrix with rows as samples and features as columns.}
 
 \item{idx}{Indices to be retained or excluded according to the value of \code{inverse}.}
 

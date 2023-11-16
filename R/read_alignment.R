@@ -3,7 +3,7 @@
 #' @param format The format of the provided alignment file. Currently, only
 #' MS-DIAL '.txt' files are supported (\code{msdial}).
 #' @importFrom utils read.csv
-#' @return Returns \code{msdial_alignment} object. A list of 3 data.frames,
+#' @return Returns \code{ms_alignment} object. A list of 3 data.frames,
 #' containing peak data (\code{tab}), peak metadata (\code{peak_meta}) and
 #' sample metadata (\code{sample_meta}).
 #' @export
@@ -27,12 +27,12 @@ ms_read_alignment <- function(path, format = c("msdial")){
 
   structure(.Data = list(tab = tab, peak_meta = peak_meta,
                          sample_meta = data.frame(full.name = rownames(tab))),
-            class = "msdial_alignment")
+            class = "ms_alignment")
 }
 
 
 #' Filter alignment by provided indices.
-#' @param x An \code{msdial_alignment} object or matrix with rows as samples and features as columns.
+#' @param x An \code{ms_alignment} object or matrix with rows as samples and features as columns.
 #' @param idx Indices to be retained or excluded according to the value of \code{inverse}.
 #' @param what Which dimension to filter on. Either (\code{rows}) or columns
 #' (\code{cols}).
@@ -60,32 +60,32 @@ ms_filter_alignment <- function(x, idx, what=c("rows","cols"), inverse = FALSE){
 #' @importFrom utils head
 #' @noRd
 #' @export
-head.msdial_alignment <- function(x,...){
+head.ms_alignment <- function(x,...){
   head(x$tab)
 }
 
 #' @importFrom utils tail
 #' @noRd
 #' @export
-tail.msdial_alignment <- function(x,...){
+tail.ms_alignment <- function(x,...){
   tail(x$tab)
 }
 
 #' @noRd
 #' @export
-print.msdial_alignment <- function(x, ...){
+print.ms_alignment <- function(x, ...){
   print(x$tab)
 }
 
 #' @noRd
 #' @export
-dim.msdial_alignment <- function(x){
+dim.ms_alignment <- function(x){
   dim(x$tab)
 }
 
 #' @noRd
 #' @export
-row.names.msdial_alignment <- function(x){
+row.names.ms_alignment <- function(x){
   row.names(x$tab)
 }
 

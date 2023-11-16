@@ -19,7 +19,7 @@ condense_eispectrum <- function(x){
 }
 
 #' Find peak based on retention time and/or mass
-#' @param x An \code{msdial_alignment} object
+#' @param x An \code{ms_alignment} object
 #' @param rt Retention time
 #' @param mz Quant.mass
 #' @param rt.tol Tolerance for matching retention time
@@ -98,7 +98,7 @@ ms_rt_to_ri <- function(rts, RIs){
 }
 
 #' Convert retention times to retention indices in alignment object.
-#' @param x An \code{msdial_alignment} object.
+#' @param x An \code{ms_alignment} object.
 #' @param Ris A matrix or data.frame containing retention times in column one
 #' and retention indices in column two.
 #' @export

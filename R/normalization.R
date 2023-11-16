@@ -2,14 +2,14 @@
 #'
 #' @description Performs Probabilistic Quotient Normalization on peak table.
 #'
-#' @param x An \code{msdial_alignment} object or matrix with rows as samples and features as columns.
+#' @param x An \code{ms_alignment} object or matrix with rows as samples and features as columns.
 #' @param ref Reference for normalization: either \code{median} (default) to use
 #' the overall median of variables as the reference, or \code{mean} to use the
 #' overall average of variables as the reference.
 #' @param QC vector of number(s) to specify samples which average to use as reference
 #' (e.g. QC samples)
 #'
-#' @return A normalized \code{msdial_alignment} object or \code{matrix},
+#' @return A normalized \code{ms_alignment} object or \code{matrix},
 #' according to the input.
 #'
 #' @importFrom stats median
@@ -26,7 +26,7 @@
 
 ms_normalize_pqn <- function(x, ref = c("median", "mean"), QC = NULL) {
   ref <- match.arg(ref, c("median","mean"))
-  if (inherits(x, what = "msdial_alignment")){
+  if (inherits(x, what = "ms_alignment")){
     X <- x$tab
   } else if (class(x) %in% c("data.frame","matrix")){
     X <- x
@@ -61,7 +61,7 @@ ms_normalize_pqn <- function(x, ref = c("median", "mean"), QC = NULL) {
 
   X.norm <- as.data.frame(X.norm)
 
-  if (inherits(x, what = "msdial_alignment")){
+  if (inherits(x, what = "ms_alignment")){
     x$tab <- X.norm
   } else{
     x <- X.norm
@@ -73,13 +73,13 @@ ms_normalize_pqn <- function(x, ref = c("median", "mean"), QC = NULL) {
 #'
 #' Divides each row by the sum of the features in that row.
 #'
-#' @param x An \code{msdial_alignment} object or matrix with rows as samples and features as columns.
-#' @return A normalized \code{msdial_alignment} object or \code{matrix},
+#' @param x An \code{ms_alignment} object or matrix with rows as samples and features as columns.
+#' @return A normalized \code{ms_alignment} object or \code{matrix},
 #' according to the input.
 #' @export
 
 ms_normalize_tsn <- function(x) {
-  if (inherits(x, what = "msdial_alignment")){
+  if (inherits(x, what = "ms_alignment")){
     X <- x$tab
   } else if (class(x) %in% c("data.frame","matrix")){
     X <- x
@@ -92,7 +92,7 @@ ms_normalize_tsn <- function(x) {
 
   X.norm <- as.data.frame(X.norm)
 
-  if (inherits(x, what = "msdial_alignment")){
+  if (inherits(x, what = "ms_alignment")){
     x$tab <- X.norm
   } else{
     x <- X.norm
@@ -104,18 +104,18 @@ ms_normalize_tsn <- function(x) {
 #'
 #' Normalize by internal standard.
 #'
-#' @param x An \code{msdial_alignment} object or matrix with rows as samples and
+#' @param x An \code{ms_alignment} object or matrix with rows as samples and
 #' features as columns.
 #' @param idx Column index of internal standard.
 #' @param plot_it Logical. Whether to plot ITSD against total peak area.
 #' @importFrom graphics abline legend plot
 #' @importFrom stats lm
 #' @author Ethan Bass
-#' @return A normalized \code{msdial_alignment} object or \code{matrix},
+#' @return A normalized \code{ms_alignment} object or \code{matrix},
 #' according to the input.
 #' @export
 ms_normalize_itsd <- function(x, idx, plot_it = FALSE) {
-  if (inherits(x, what = "msdial_alignment")){
+  if (inherits(x, what = "ms_alignment")){
     X <- x$tab
   } else if (class(x) %in% c("data.frame","matrix")){
     X <- x
@@ -141,7 +141,7 @@ ms_normalize_itsd <- function(x, idx, plot_it = FALSE) {
 
   X.norm <- as.data.frame(X.norm)
 
-  if (inherits(x, what = "msdial_alignment")){
+  if (inherits(x, what = "ms_alignment")){
     x$tab <- X.norm
   } else{
     x <- X.norm
@@ -150,12 +150,12 @@ ms_normalize_itsd <- function(x, idx, plot_it = FALSE) {
 }
 
 #' Subtract blanks
-#' @param x A \code{msdial_alignment} object.
+#' @param x A \code{ms_alignment} object.
 #' @param blanks.idx Indices of blank samples
 #' @param blanks.pattern A string that uniquely identifies blank samples by name
 #' @param what Whether to subtract the mean or median value
 #' @param drop Logical. Whether to drop columns containing only zeros. Defaults to TRUE.
-#' @return A \code{msdial_alignment} object with the mean or median of the blanks
+#' @return A \code{ms_alignment} object with the mean or median of the blanks
 #' subtracted from each peak.
 #' @export
 

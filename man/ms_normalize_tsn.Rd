@@ -7,10 +7,10 @@
 ms_normalize_tsn(x)
 }
 \arguments{
-\item{x}{An \code{msdial_alignment} object or matrix with rows as samples and features as columns.}
+\item{x}{An \code{ms_alignment} object or matrix with rows as samples and features as columns.}
 }
 \value{
-A normalized \code{msdial_alignment} object or \code{matrix},
+A normalized \code{ms_alignment} object or \code{matrix},
 according to the input.
 }
 \description{

@@ -1,7 +1,7 @@
 #' Launch MS search gadget for interactive viewing of spectral matches.
 #' @name ms_search_gadget
 #' @importFrom graphics rasterImage par plot.new
-#' @param data An \code{msdial_alignment} object.
+#' @param data An \code{ms_alignment} object.
 #' @export
 
 ms_search_gadget <- function(data){

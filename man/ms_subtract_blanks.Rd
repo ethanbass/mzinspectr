@@ -13,7 +13,7 @@ ms_subtract_blanks(
 )
 }
 \arguments{
-\item{x}{A \code{msdial_alignment} object.}
+\item{x}{A \code{ms_alignment} object.}
 
 \item{blanks.idx}{Indices of blank samples}
 
@@ -24,7 +24,7 @@ ms_subtract_blanks(
 \item{drop}{Logical. Whether to drop columns containing only zeros. Defaults to TRUE.}
 }
 \value{
-A \code{msdial_alignment} object with the mean or median of the blanks
+A \code{ms_alignment} object with the mean or median of the blanks
 subtracted from each peak.
 }
 \description{

@@ -7,7 +7,7 @@
 ms_calculate_RIs(x, Ris)
 }
 \arguments{
-\item{x}{An \code{msdial_alignment} object.}
+\item{x}{An \code{ms_alignment} object.}
 
 \item{Ris}{A matrix or data.frame containing retention times in column one
 and retention indices in column two.}

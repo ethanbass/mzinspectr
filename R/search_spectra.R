@@ -1,4 +1,4 @@
-#' Search spectra in MSDIAL alignment against database
+#' Search spectra in MS alignment against database
 #'
 #' This function can be used to identify peaks in a peak table by matching them
 #' to a spectral database (\code{db}). It takes several arguments that can
@@ -11,7 +11,7 @@
 #' index similarity) when calculating the the total similarity score, which is
 #' used to rank matches.
 #'
-#' @param x An \code{msdial_alignment} object.
+#' @param x An \code{ms_alignment} object.
 #' @param db MSP database. The provided object should be a nested list, where the
 #' sublists contain the following elements: retention indices in an element named
 #' \code{RI} and mass spectra in an element called \code{Spectra}. All other elements
@@ -32,7 +32,7 @@
 #' @param progress_bar Logical. Whether to display progress bar or not.
 #' @note See \href{https://github.com/QizhiSu/mspcompiler}{mspcompiler} for help compiling
 #' an msp database.
-#' @return Returns a modified \code{msdial_alignment} object with database matches
+#' @return Returns a modified \code{ms_alignment} object with database matches
 #' in the \code{matches} slot as a list of data frames. Each \code{data.frame}
 #' will contain the database matches as rows and columns corresponding to the
 #' elements of the database entry (e.g. "Name", "InChIKey", etc.) as well as
@@ -86,7 +86,7 @@ ms_search_spectra <- function(x, db, cols, ..., ri_thresh = 100, spectral_weight
 }
 
 #' Get spectrum from MSDIAL alignment object
-#' @param x An \code{msdial_alignment} object or matrix with rows as samples and features as columns.
+#' @param x An \code{ms_alignment} object or matrix with rows as samples and features as columns.
 #' @param col Index of the feature (column).
 #' @return Returns spectrum as a data.frame with two columns: "mz" and "intensity".
 #' @author Ethan Bass
@@ -105,7 +105,7 @@ ms_get_spectrum <- function(x, col){
 #' @param parallel Logical. Whether to use parallel processing. (This feature
 #' does not work on Windows).
 #' @param mc.cores How many cores to use for parallel processing? Defaults to 2.
-#' @param what What kind of object to return. Either \code{msdial_alignment} object,
+#' @param what What kind of object to return. Either \code{ms_alignment} object,
 #'  (\code{msd}), or \code{data.frame} (\code{df}).
 #' @param progress_bar Logical. Whether to display progress bar or not.
 #' @importFrom pbapply pblapply
@@ -151,9 +151,9 @@ msp_to_dataframe <- function(db){
 }
 
 #' Calculate spectral similarity between two peaks
-#' This function is adapted from the \code{SpectrumSimilarity} function in
-#' [OrgMassSpecR](https://orgmassspec.github.io/) where it is licensed under
-#' BSD-2 (© 2011-2017, Nathan Dodder). The function was refactored here for
+#' This function is slightly adapted from the \code{SpectrumSimilarity} function
+#' in [OrgMassSpecR](https://orgmassspec.github.io/) where it is licensed under
+#' BSD-2 (© 2011-2017, Nathan Dodder). The function was re-factored here for
 #' increased speed.
 #' @param spec.top data frame containing the experimental spectrum's peak list
 #' with the m/z values in the first column and corresponding intensities in the
@@ -167,11 +167,18 @@ msp_to_dataframe <- function(db){
 #' identification. Expressed as a percent of the maximum intensity.
 #' @param xlim numeric vector of length 2, defining the beginning and ending
 #' values of the x-axis.
-#' @param x.threshold
+#' @param x.threshold numeric value of length 1 specifying the m/z threshold
+#' used for the similarity score calculation. Only peaks with m/z values above
+#' the threshold are used in the calculation. This can be used to exclude noise
+#' and/or non-specific ions at the low end of the spectrum. By default all ions
+#' are used.
 #' @author Nathan G. Dodder
 #' @author Ethan Bass
 spectral_similarity <- function(spec.top, spec.bottom, t = 0.25, b = 10,
                                 xlim = c(50, 1200), x.threshold = 0){
+  if (x.threshold < 0){
+    stop("x.threshold argument must be zero or a positive number")
+  }
   colnames(spec.top) <- c("mz", "intensity")
   spec.top$normalized <- round((spec.top$intensity/max(spec.top$intensity)) * 100)
   spec.top <- spec.top[which(spec.top$mz >= xlim[1] & spec.top$mz <= xlim[2]),]
@@ -192,8 +199,6 @@ spectral_similarity <- function(spec.top, spec.bottom, t = 0.25, b = 10,
   alignment[, c(2, 3)][is.na(alignment[, c(2, 3)])] <- 0
   names(alignment) <- c("mz", "intensity.top", "intensity.bottom")
 
-  if (x.threshold < 0)
-    stop("x.threshold argument must be zero or a positive number")
   alignment <- alignment[alignment[, 1] >= x.threshold, ]
   u <- alignment[, 2]
   v <- alignment[, 3]

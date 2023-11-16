@@ -7,7 +7,7 @@
 ms_normalize_itsd(x, idx, plot_it = FALSE)
 }
 \arguments{
-\item{x}{An \code{msdial_alignment} object or matrix with rows as samples and
+\item{x}{An \code{ms_alignment} object or matrix with rows as samples and
 features as columns.}
 
 \item{idx}{Column index of internal standard.}
@@ -15,7 +15,7 @@ features as columns.}
 \item{plot_it}{Logical. Whether to plot ITSD against total peak area.}
 }
 \value{
-A normalized \code{msdial_alignment} object or \code{matrix},
+A normalized \code{ms_alignment} object or \code{matrix},
 according to the input.
 }
 \description{

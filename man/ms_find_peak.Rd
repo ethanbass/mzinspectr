@@ -7,7 +7,7 @@
 ms_find_peak(x, rt, mz, rt.tol = 0.01, mz.tol = 0.05, plot_it = TRUE)
 }
 \arguments{
-\item{x}{An \code{msdial_alignment} object}
+\item{x}{An \code{ms_alignment} object}
 
 \item{rt}{Retention time}
 

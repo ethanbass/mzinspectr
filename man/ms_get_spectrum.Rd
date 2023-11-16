@@ -7,7 +7,7 @@
 ms_get_spectrum(x, col)
 }
 \arguments{
-\item{x}{An \code{msdial_alignment} object or matrix with rows as samples and features as columns.}
+\item{x}{An \code{ms_alignment} object or matrix with rows as samples and features as columns.}
 
 \item{col}{Index of the feature (column).}
 }

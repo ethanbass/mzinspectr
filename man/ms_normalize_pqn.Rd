@@ -7,7 +7,7 @@
 ms_normalize_pqn(x, ref = c("median", "mean"), QC = NULL)
 }
 \arguments{
-\item{x}{An \code{msdial_alignment} object or matrix with rows as samples and features as columns.}
+\item{x}{An \code{ms_alignment} object or matrix with rows as samples and features as columns.}
 
 \item{ref}{Reference for normalization: either \code{median} (default) to use
 the overall median of variables as the reference, or \code{mean} to use the
@@ -17,7 +17,7 @@ overall average of variables as the reference.}
 (e.g. QC samples)}
 }
 \value{
-A normalized \code{msdial_alignment} object or \code{matrix},
+A normalized \code{ms_alignment} object or \code{matrix},
 according to the input.
 }
 \description{

@@ -7,7 +7,7 @@
 ms_search_gadget(data)
 }
 \arguments{
-\item{data}{An \code{msdial_alignment} object.}
+\item{data}{An \code{ms_alignment} object.}
 }
 \description{
 Launch MS search gadget for interactive viewing of spectral matches.

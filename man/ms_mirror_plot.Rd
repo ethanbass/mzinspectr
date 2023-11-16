@@ -3,7 +3,7 @@
 \name{ms_mirror_plot}
 \alias{ms_mirror_plot}
 \alias{ms_mirror_plot.data.frame}
-\alias{ms_mirror_plot.msdial_alignment}
+\alias{ms_mirror_plot.ms_alignment}
 \title{Mirror plot function}
 \usage{
 ms_mirror_plot(x, ...)
@@ -21,7 +21,7 @@ ms_mirror_plot(x, ...)
   ...
 )
 
-\method{ms_mirror_plot}{msdial_alignment}(
+\method{ms_mirror_plot}{ms_alignment}(
   x,
   cols,
   ref,
@@ -36,7 +36,7 @@ ms_mirror_plot(x, ...)
 )
 }
 \arguments{
-\item{x}{A \code{msdial_alignment} object.}
+\item{x}{A \code{ms_alignment} object.}
 
 \item{...}{Additional arguments}
 

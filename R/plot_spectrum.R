@@ -20,7 +20,7 @@
 ms_plot_spectrum <- function(x, col, plot_labels = TRUE, lab_int = 0.2,
                              title = TRUE, type = c("plotly", "base"),
                              scale = FALSE, bar_width = 1, digits = 1, ...){
-  if (inherits(x,"msdial_alignment")){
+  if (inherits(x,"ms_alignment")){
     xx <- x$peak_meta
   } else if (inherits(x, "data.frame") && "EI.spectrum" %in% colnames(x)){
     xx <- x
@@ -152,7 +152,7 @@ ms_mirror_plot.data.frame <- function(x, y, plot_labels = TRUE, type = c("plotly
 }
 
 #' Plot two spectra as a mirror plot.
-#' @param x A \code{msdial_alignment} object.
+#' @param x A \code{ms_alignment} object.
 #' @param cols One or more columns in the peak table \code{tab} to plot.
 #' @param ref A row in the matches slot corresponding to the provided column.
 #' @param type What kind of plot to produce. Either base R (\code{base}) or
@@ -165,10 +165,10 @@ ms_mirror_plot.data.frame <- function(x, y, plot_labels = TRUE, type = c("plotly
 #' @param bar_width Width of bars.
 #' @param match_score Logical. Whether to plot match score or not.
 #' @rdname ms_mirror_plot
-#' @method ms_mirror_plot msdial_alignment
+#' @method ms_mirror_plot ms_alignment
 #' @export
 
-ms_mirror_plot.msdial_alignment <- function(x, cols, ref, type=c("plotly", "base"),
+ms_mirror_plot.ms_alignment <- function(x, cols, ref, type=c("plotly", "base"),
                                          scale = TRUE, plot_labels = TRUE,
                                          lab_int = 0.2, digits = 1,
                                          bar_width = 1, match_score = TRUE, ...){

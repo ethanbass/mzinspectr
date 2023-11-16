@@ -1,13 +1,13 @@
 #' Attach experimental metadata
 #'
-#' Attaches experimental metadata to `MSDIAL_alignment` object. One of the columns in
+#' Attaches experimental metadata to `ms_alignment` object. One of the columns in
 #' the supplied metadata must match exactly the row names of the peak table.
 #'
 #' @aliases attach_metadata
-#' @param x An `MSDIAL_alignment` object.
+#' @param x A \code{ms_alignment} object.
 #' @param metadata A `data.frame` containing the sample metadata.
 #' @param col The name of the column containing the sample names.
-#' @return A \code{MSDIAL_alignment} object with attached metadata in the \code{
+#' @return A \code{ms_alignment} object with attached metadata in the \code{
 #' $sample_meta} slot.
 #' @author Ethan Bass
 #' @export
@@ -24,7 +24,7 @@ ms_attach_metadata <- function(x, metadata, col){
   if (sum((duplicated(metadata[,col]))) > 0)
     stop(paste("Sample names must be unique. Please check column", sQuote(col),
                "for duplicates."))
-  if (!inherits(x,"msdial_alignment"))
+  if (!inherits(x,"ms_alignment"))
     stop(paste("Provided peak table object must be of class 'x'."))
   meta <- data.frame(rownames(x$tab))
   names(meta) <- col
