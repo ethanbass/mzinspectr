@@ -4,7 +4,13 @@
 \alias{ms_reshape_peaktable}
 \title{Reshape peak table}
 \usage{
-ms_reshape_peaktable(x, peaks, metadata, treatments = NULL)
+ms_reshape_peaktable(
+  x,
+  peaks,
+  metadata,
+  treatments = NULL,
+  fixed_levels = TRUE
+)
 }
 \arguments{
 \item{x}{An MS dial alignment object.}
@@ -18,6 +24,8 @@ the tidy output.}
 
 \item{treatments}{This argument is deprecated as of version 0.3.2. It is
 synonymous with the new metadata argument which should be used instead.}
+
+\item{fixed_levels}{Fix factor levels of features in the order provided.}
 }
 \value{
 If \code{export} is \code{TRUE}, returns spectrum as \code{data.frame}.
