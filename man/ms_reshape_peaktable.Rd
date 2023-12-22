@@ -25,7 +25,8 @@ the tidy output.}
 \item{treatments}{This argument is deprecated as of version 0.3.2. It is
 synonymous with the new metadata argument which should be used instead.}
 
-\item{fixed_levels}{Fix factor levels of features in the order provided.}
+\item{fixed_levels}{Logical. Whether to fix factor levels of features in the
+order provided. Defaults to \code{TRUE}.}
 }
 \value{
 If \code{export} is \code{TRUE}, returns spectrum as \code{data.frame}.

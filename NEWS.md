@@ -4,7 +4,7 @@
 * Updated `ms_filter_alignment` so it filters matches when removing columns from the peak table.
 * Added titles to mass spectra plots with peak name and retention index or time.
 * Fixed bug in retention index matching algorithm for `ms_search_spectra` function.
-* Added `fixed_levels` argument to `ms_reshape_peaktable` so features can be automatically plotted in the order they are provided by the user.
+* Added `fixed_levels` argument to `ms_reshape_peaktable` so features can be plotted in the order they're provided by the user.
 * Changed the name of the `mzinspectr` alignment object from `msdial_alignment` to `ms_alignment`.
 
 # msdialreadr 0.3.3

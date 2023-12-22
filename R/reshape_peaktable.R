@@ -10,7 +10,8 @@
 #' the tidy output.
 #' @param treatments This argument is deprecated as of version 0.3.2. It is
 #' synonymous with the new metadata argument which should be used instead.
-#' @param fixed_levels Fix factor levels of features in the order provided.
+#' @param fixed_levels Logical. Whether to fix factor levels of features in the
+#' order provided. Defaults to \code{TRUE}.
 #' @importFrom dplyr select mutate any_of
 #' @importFrom tidyr pivot_longer
 #' @return If \code{export} is \code{TRUE}, returns spectrum as \code{data.frame}.
@@ -31,7 +32,7 @@ ms_reshape_peaktable <- function(x, peaks, metadata, treatments = NULL,
     if (is.numeric(peaks)){
       peaks <- colnames(df)[peaks]
     }
-    df <- df[,match(peaks,colnames(df)), drop = FALSE]
+    df <- df[, match(peaks, colnames(df)), drop = FALSE]
     if (!is.null(names(peaks))){
       colnames(df) <- names(peaks)
       peaks <- colnames(df)
@@ -69,5 +70,6 @@ ms_reshape_peaktable <- function(x, peaks, metadata, treatments = NULL,
 
 ms_tidy_msdial <- function(x, peaks, metadata, treatments = NULL){
   .Deprecated("ms_reshape_peaktable", package = "tidy_msdial")
-  ms_reshape_peaktable(x=x, peaks = peaks, metadata = metadata, treatments = treatments)
+  ms_reshape_peaktable(x = x, peaks = peaks, metadata = metadata,
+                       treatments = treatments)
 }

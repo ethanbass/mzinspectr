@@ -2,7 +2,8 @@
 #'
 #' @description Performs Probabilistic Quotient Normalization on peak table.
 #'
-#' @param x An \code{ms_alignment} object or matrix with rows as samples and features as columns.
+#' @param x A \code{ms_alignment} object or matrix with rows as samples and
+#' features as columns.
 #' @param ref Reference for normalization: either \code{median} (default) to use
 #' the overall median of variables as the reference, or \code{mean} to use the
 #' overall average of variables as the reference.
@@ -25,7 +26,7 @@
 #' @export
 
 ms_normalize_pqn <- function(x, ref = c("median", "mean"), QC = NULL) {
-  ref <- match.arg(ref, c("median","mean"))
+  ref <- match.arg(ref, c("median", "mean"))
   if (inherits(x, what = "ms_alignment")){
     X <- x$tab
   } else if (class(x) %in% c("data.frame","matrix")){
@@ -160,7 +161,7 @@ ms_normalize_itsd <- function(x, idx, plot_it = FALSE) {
 #' @export
 
 ms_subtract_blanks <- function(x, blanks.idx, blanks.pattern,
-                            what=c("mean","median"), drop = TRUE){
+                            what=c("mean", "median"), drop = TRUE){
   if (missing(blanks.idx)){
     if (!missing(blanks.pattern)){
       blanks.idx <- grep(blanks.pattern, x$sample_meta$full.name)
@@ -181,13 +182,13 @@ ms_subtract_blanks <- function(x, blanks.idx, blanks.pattern,
   })
 
   # Round any negative nunbers up to 0
-  x.n <- apply(x.n, c(1,2), function(y) max(y,0))
+  x.n <- apply(x.n, c(1, 2), function(y) max(y,0))
 
   # drop 0 columns
   if (drop){
     zeros <- which(colMeans(x.n) == 0)
     if (length(zeros) > 0){
-      x.n <- x.n[,-zeros]
+      x.n <- x.n[, -zeros]
     }
   }
   x.n <- as.data.frame(x.n)
