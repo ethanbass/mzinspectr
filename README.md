@@ -1,6 +1,7 @@
 # mzinspectr
 <!-- badges: start -->
   [![mzinspectr status badge](https://ethanbass.r-universe.dev/badges/mzinspectr)](https://ethanbass.r-universe.dev)
+  [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10426253.svg)](https://doi.org/10.5281/zenodo.10426253)
   [![stability-experimental](https://img.shields.io/badge/stability-experimental-orange.svg)](https://github.com/emersion/stability-badges#experimental)
 <!-- badges: end -->
    
@@ -49,4 +50,6 @@ Spectra can be plotted using either "base R" graphics or "plotly" graphics using
 
 If you use mzinspectr in published work, please cite it as follows:
 
-Bass, E. (2023). mzinspectr: Read and Analyze Mass Spectrometry Alignment Files (version 0.4.0).
+Bass, E. (2023). mzinspectr: Read and Analyze Mass Spectrometry Alignment Files (version 0.4.0). https://doi.org/10.5281/zenodo.10426253.
+
+
