@@ -38,15 +38,15 @@ ms_search_gadget <- function(data){
   # Define the server
   server <- function(input, output) {
     # Render the selected dataframe as a table
-    # escape <- c(escape, include[which(!(include %in% colnames(data$matches[[1]])))])
-    include <- c("Name", "Formula", "RI", "Comment", "spectral_match", "ri_match", "total_score")
+    include <- c("Name", "Formula", "RI", "Comment",
+                 "spectral_match", "ri_match", "total_score")
     output$matches <- DT::renderDT({
       escape.idx <- which(!(colnames(data$matches[[input$df_select]]) %in% include))
       escape = colnames(data$matches[[input$df_select]])[escape.idx]
       DT::datatable(data$matches[[input$df_select]],
-                    selection=list(mode="single", selected = 1),
-                options=list(columnDefs = list(list(visible=FALSE,
-                                                    targets=escape)),
+                    selection=list(mode = "single", selected = 1),
+                options=list(columnDefs = list(list(visible = FALSE,
+                                                    targets = escape)),
                              dom='tip',
                              paging = TRUE,
                              pageLength = 5)) |>
@@ -81,13 +81,14 @@ ms_search_gadget <- function(data){
         mol = rcdk::parse.smiles(smiles)[[1]]
 
         # Generate the 2D depiction of the molecule
-        # rcdkplot(mol)
         oldpar <- par(no.readonly = TRUE)
         par(mar = c(3,0,0,5))
-        png <- rcdk::view.image.2d(molecule=mol,
-                                   depictor = rcdk::get.depictor(width=500, height=500, zoom=10))
-        plot(NA, NA, xlim=c(1,10), ylim=c(1,10),
-             xaxt='n', yaxt='n', xlab='', ylab='', bty="n")
+        png <- rcdk::view.image.2d(molecule = mol,
+                                   depictor = rcdk::get.depictor(width = 500,
+                                                                 height = 500,
+                                                                 zoom = 10))
+        plot(NA, NA, xlim = c(1, 10), ylim = c(1, 10),
+             xaxt = 'n', yaxt = 'n', xlab = '', ylab = '', bty = "n")
         rasterImage(png, 1, 1, 10, 10)
         par(oldpar)
       }
