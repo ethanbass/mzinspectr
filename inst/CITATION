@@ -7,8 +7,9 @@ citEntry(
   year     = "2023",
   note     = "version 0.4.0",
   url      = "",
-  doi      = "",
+  doi      = "10.5281/zenodo.10426253",
   textVersion = paste("Bass, E. (2023).",
-        "mzinspectr: Read and Analyze Mass Spectrometry Alignment Files (version 0.4.0)."
+        "mzinspectr: Read and Analyze Mass Spectrometry Alignment Files (version 0.4.0).",
+        "https://doi.org/10.5281/zenodo.10426253."
         )
   )
