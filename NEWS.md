@@ -1,3 +1,8 @@
+# mzinspectr 0.4.1
+
+* Refactored `spectral_similarity` to speed up spectral library search.
+* Silenced warnings for malformed database entries in spectral library search.
+
 # mzinspectr 0.4.0
 
 * Changed name of package to "mzinspectr".

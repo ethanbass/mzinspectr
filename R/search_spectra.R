@@ -125,7 +125,7 @@ search_msp <- function(x, db, ..., n_results = 10, parallel, mc.cores = 2,
   laplee <- choose_apply_fnc(progress_bar = progress_bar, cl = mc.cores)
   sim <- unlist(lapply(seq_along(db), function(i){
     db[[i]]$Spectra <- as.data.frame(apply(db[[i]]$Spectra, 2, as.numeric))
-    try(spectral_similarity(spec.top = x, spec.bottom = db[[i]]$Spectra, ...))
+    try(spectral_similarity(spec.top = x, spec.bottom = db[[i]]$Spectra, ...), silent = TRUE)
   }))
   sim <- suppressWarnings(as.numeric(sim))
   if (what == "scores"){
@@ -151,10 +151,12 @@ msp_to_dataframe <- function(db){
 }
 
 #' Calculate spectral similarity between two peaks
+#'
 #' This function is slightly adapted from the \code{SpectrumSimilarity} function
 #' in [OrgMassSpecR](https://orgmassspec.github.io/) where it is licensed under
 #' BSD-2 (© 2011-2017, Nathan Dodder). The function was re-factored here for
 #' increased speed.
+#'
 #' @param spec.top data frame containing the experimental spectrum's peak list
 #' with the m/z values in the first column and corresponding intensities in the
 #' second.
@@ -174,6 +176,7 @@ msp_to_dataframe <- function(db){
 #' are used.
 #' @author Nathan G. Dodder
 #' @author Ethan Bass
+
 spectral_similarity <- function(spec.top, spec.bottom, t = 0.25, b = 10,
                                 xlim = c(50, 1200), x.threshold = 0){
   if (x.threshold < 0){
@@ -193,10 +196,15 @@ spectral_similarity <- function(spec.top, spec.bottom, t = 0.25, b = 10,
     top[, 1][which(bottom[, 1][i] >= top[,1] - t & bottom[, 1][i] <= top[, 1] + t)] <- bottom[,1][i]
   }
 
-  alignment <- merge(top[,-2], bottom[,-2], by = 1, all = TRUE)
+  mz <- unique(c(top$mz, bottom$mz))
+  alignment <- cbind(mz, x = top[match(mz, top[, "mz"]), "normalized"],
+                      y = bottom[match(mz, bottom[, "mz"]), "normalized"])
+
   if (length(unique(alignment[, 1])) != length(alignment[, 1]))
     warning("the m/z tolerance is set too high")
-  alignment[, c(2, 3)][is.na(alignment[, c(2, 3)])] <- 0
+  alignment[, 3][is.na(alignment[, 3])] <- 0
+  alignment[, c(2,3)][is.na(alignment[, c(2,3)])] <- 0
+
   names(alignment) <- c("mz", "intensity.top", "intensity.bottom")
 
   alignment <- alignment[alignment[, 1] >= x.threshold, ]

@@ -50,6 +50,6 @@ Spectra can be plotted using either "base R" graphics or "plotly" graphics using
 
 If you use mzinspectr in published work, please cite it as follows:
 
-Bass, E. (2023). mzinspectr: Read and Analyze Mass Spectrometry Alignment Files (version 0.4.0). https://doi.org/10.5281/zenodo.10426253.
+Bass, E. (2023). mzinspectr: Read and Analyze Mass Spectrometry Alignment Files (version 0.4.1). https://doi.org/10.5281/zenodo.10426253.
 
 

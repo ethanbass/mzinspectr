@@ -2,11 +2,7 @@
 % Please edit documentation in R/search_spectra.R
 \name{spectral_similarity}
 \alias{spectral_similarity}
-\title{Calculate spectral similarity between two peaks
-This function is slightly adapted from the \code{SpectrumSimilarity} function
-in [OrgMassSpecR](https://orgmassspec.github.io/) where it is licensed under
-BSD-2 (© 2011-2017, Nathan Dodder). The function was re-factored here for
-increased speed.}
+\title{Calculate spectral similarity between two peaks}
 \usage{
 spectral_similarity(
   spec.top,
@@ -42,7 +38,6 @@ and/or non-specific ions at the low end of the spectrum. By default all ions
 are used.}
 }
 \description{
-Calculate spectral similarity between two peaks
 This function is slightly adapted from the \code{SpectrumSimilarity} function
 in [OrgMassSpecR](https://orgmassspec.github.io/) where it is licensed under
 BSD-2 (© 2011-2017, Nathan Dodder). The function was re-factored here for
