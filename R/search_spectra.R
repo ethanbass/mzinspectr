@@ -182,15 +182,9 @@ spectral_similarity <- function(spec.top, spec.bottom, t = 0.25, b = 10,
   if (x.threshold < 0){
     stop("x.threshold argument must be zero or a positive number")
   }
-  colnames(spec.top) <- c("mz", "intensity")
-  spec.top$normalized <- round((spec.top$intensity/max(spec.top$intensity)) * 100)
-  spec.top <- spec.top[which(spec.top$mz >= xlim[1] & spec.top$mz <= xlim[2]),]
-  top <- spec.top[which(spec.top$normalized >= b),]
 
-  colnames(spec.bottom) <- c("mz", "intensity")
-  spec.bottom$normalized <- round((spec.bottom$intensity/max(spec.bottom$intensity)) * 100)
-  spec.bottom <- spec.bottom[which(spec.bottom$mz >= xlim[1] & spec.bottom$mz <= xlim[2]),]
-  bottom <- spec.bottom[which(spec.bottom$normalized >= b),]
+  top <- normalize_spectrum(spec.top, xlim = xlim, b = b)
+  bottom <- normalize_spectrum(spec.bottom, xlim = xlim, b = b)
 
   for (i in 1:nrow(bottom)){
     top[, 1][which(bottom[, 1][i] >= top[,1] - t & bottom[, 1][i] <= top[, 1] + t)] <- bottom[,1][i]
@@ -212,4 +206,13 @@ spectral_similarity <- function(spec.top, spec.bottom, t = 0.25, b = 10,
   v <- alignment[, 3]
   similarity_score <- sum(u * v) / (sqrt(sum(u^2)) * sqrt(sum(v^2)))
   return(similarity_score)
+}
+
+#' Normalize spectrum
+#' @noRd
+normalize_spectrum <- function(spec, b, xlim){
+  colnames(spec) <- c("mz", "intensity")
+  spec$normalized <- round((spec$intensity/max(spec$intensity)) * 100)
+  spec <- spec[which(spec$mz >= xlim[1] & spec$mz <= xlim[2]),]
+  spec[which(spec$normalized >= b),]
 }
