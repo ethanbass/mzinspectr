@@ -51,10 +51,15 @@ ms_plot_spectrum <- function(x, col, plot_labels = TRUE, lab_int = 0.2,
       yaxis = list(title = "Ion Intensity")
     )
     p <- plotly::plot_ly()
-    p <- plotly::add_trace(p, type="bar", x=spec$mz, y=spec$intensity, marker=list(line=list(width=bar_width)))
-    p <- plotly::layout(p, title=layout$title, xaxis=layout$xaxis, yaxis=layout$yaxis)
+    p <- plotly::add_trace(p, type = "bar", x = spec$mz, y = spec$intensity,
+                           marker=list(line = list(width = bar_width)))
+    p <- plotly::layout(p, title = layout$title, xaxis = layout$xaxis,
+                        yaxis = layout$yaxis)
     if (plot_labels){
-      p <- plotly::add_annotations(p, x = ~spec$mz[lab.idx], y = ~spec$intensity[lab.idx], text=~round(spec$mz[lab.idx], digits), yshift=10, xshift=1, showarrow=FALSE )
+      p <- plotly::add_annotations(p, x = ~spec$mz[lab.idx],
+                                   y = ~spec$intensity[lab.idx],
+                                   text = ~round(spec$mz[lab.idx], digits),
+                                   yshift = 10, xshift = 1, showarrow = FALSE )
     }
     p
   }
@@ -87,9 +92,11 @@ ms_mirror_plot <- function(x, ...){
 #' @method ms_mirror_plot data.frame
 #' @export
 
-ms_mirror_plot.data.frame <- function(x, y, plot_labels = TRUE, type = c("plotly", "base"),
-                        scale = TRUE, lab_int = 0.2, digits = 1, bar_width = 1,
-                        match_score = TRUE, ...){
+ms_mirror_plot.data.frame <- function(x, y, plot_labels = TRUE,
+                                      type = c("plotly", "base"),
+                                      scale = TRUE, lab_int = 0.2,
+                                      digits = 1, bar_width = 1,
+                                      match_score = TRUE, ...){
   type <- match.arg(type, c("plotly", "base"))
   colnames(x) <- c("mz","intensity")
   colnames(y) <- c("mz","intensity")
@@ -115,9 +122,11 @@ ms_mirror_plot.data.frame <- function(x, y, plot_labels = TRUE, type = c("plotly
     }
     if (match_score){
       y[,2] <- -y[,2]
-      match <- try(OrgMassSpecR::SpectrumSimilarity(spec.top = x, spec.bottom = y,
+      match <- try(OrgMassSpecR::SpectrumSimilarity(spec.top = x,
+                                                    spec.bottom = y,
                                                     print.graphic = FALSE))
-      label <- paste0("Similarity score: ", format(round(match, 2), nsmall = 2), "%")
+      label <- paste0("Similarity score: ",
+                      format(round(match, 2), nsmall = 2), "%")
       legend("top", legend = label, cex = 0.7, bty = "n")
     }
   } else if (type == "plotly"){
@@ -183,6 +192,7 @@ ms_mirror_plot.ms_alignment <- function(x, cols, ref, type=c("plotly", "base"),
     spec2 <- tidy_eispectrum(x$matches[[cols[1]]][ref, "Spectra"])
   }
   ms_mirror_plot(x = spec1, y = spec2, plot_labels = plot_labels,
-              lab_int = lab_int, type = type, scale = scale, bar_width = bar_width,
-              digits = digits, match_score = match_score)
+              lab_int = lab_int, type = type, scale = scale,
+              bar_width = bar_width, digits = digits,
+              match_score = match_score)
 }

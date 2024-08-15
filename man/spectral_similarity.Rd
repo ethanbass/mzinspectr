@@ -7,7 +7,7 @@
 spectral_similarity(
   spec.top,
   spec.bottom,
-  t = 0.25,
+  tol = 0.25,
   b = 10,
   xlim = c(50, 1200),
   x.threshold = 0
@@ -22,7 +22,7 @@ second.}
 with the m/z values in the first column and corresponding intensities in the
 second.}
 
-\item{t}{numeric value specifying the tolerance used to align the m/z values
+\item{tol}{numeric value specifying the tolerance used to align the m/z values
 of the two spectra.}
 
 \item{b}{numeric value specifying the baseline threshold for peak

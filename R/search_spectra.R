@@ -46,7 +46,8 @@ ms_search_spectra <- function(x, db, cols, ..., ri_thresh = 100, spectral_weight
                            progress_bar = TRUE){
   if (!is.null(ri_thresh) && all(is.na(x$peak_meta$Average.RI))){
     stop(paste("Retention indices are not present. Please add retention indices using \n \t",
-               sQuote("ms_calculate_RIs"), "before proceeding or set", sQuote("ri_thresh = NULL"),"."))
+               sQuote("ms_calculate_RIs"), "before proceeding or set",
+               sQuote("ri_thresh = NULL"), "."))
   }
   if (is.null(x$matches)){
     x$matches <- as.list(rep(NA, ncol(x$tab)))
@@ -91,7 +92,6 @@ ms_search_spectra <- function(x, db, cols, ..., ri_thresh = 100, spectral_weight
 #' @return Returns spectrum as a data.frame with two columns: "mz" and "intensity".
 #' @author Ethan Bass
 #' @export
-
 ms_get_spectrum <- function(x, col){
   spec <- tidy_eispectrum(x$peak_meta[col, "EI.spectrum"])
   spec
@@ -163,7 +163,7 @@ msp_to_dataframe <- function(db){
 #' @param spec.bottom data frame containing the reference spectrum's peak list
 #' with the m/z values in the first column and corresponding intensities in the
 #' second.
-#' @param t numeric value specifying the tolerance used to align the m/z values
+#' @param tol numeric value specifying the tolerance used to align the m/z values
 #' of the two spectra.
 #' @param b numeric value specifying the baseline threshold for peak
 #' identification. Expressed as a percent of the maximum intensity.
@@ -177,7 +177,7 @@ msp_to_dataframe <- function(db){
 #' @author Nathan G. Dodder
 #' @author Ethan Bass
 
-spectral_similarity <- function(spec.top, spec.bottom, t = 0.25, b = 10,
+spectral_similarity <- function(spec.top, spec.bottom, tol = 0.25, b = 10,
                                 xlim = c(50, 1200), x.threshold = 0){
   if (x.threshold < 0){
     stop("x.threshold argument must be zero or a positive number")
@@ -186,20 +186,7 @@ spectral_similarity <- function(spec.top, spec.bottom, t = 0.25, b = 10,
   top <- normalize_spectrum(spec.top, xlim = xlim, b = b)
   bottom <- normalize_spectrum(spec.bottom, xlim = xlim, b = b)
 
-  for (i in 1:nrow(bottom)){
-    top[, 1][which(bottom[, 1][i] >= top[,1] - t & bottom[, 1][i] <= top[, 1] + t)] <- bottom[,1][i]
-  }
-
-  mz <- unique(c(top$mz, bottom$mz))
-  alignment <- cbind(mz, x = top[match(mz, top[, "mz"]), "normalized"],
-                      y = bottom[match(mz, bottom[, "mz"]), "normalized"])
-
-  if (length(unique(alignment[, 1])) != length(alignment[, 1]))
-    warning("the m/z tolerance is set too high")
-  alignment[, 3][is.na(alignment[, 3])] <- 0
-  alignment[, c(2,3)][is.na(alignment[, c(2,3)])] <- 0
-
-  names(alignment) <- c("mz", "intensity.top", "intensity.bottom")
+  alignment <- align_spectra(top, bottom, tol = tol)
 
   alignment <- alignment[alignment[, 1] >= x.threshold, ]
   u <- alignment[, 2]
@@ -215,4 +202,32 @@ normalize_spectrum <- function(spec, b, xlim){
   spec$normalized <- round((spec$intensity/max(spec$intensity)) * 100)
   spec <- spec[which(spec$mz >= xlim[1] & spec$mz <= xlim[2]),]
   spec[which(spec$normalized >= b),]
+}
+
+#' Align spectra
+#' @noRd
+align_spectra <- function(top, bottom, tol){
+  idx <- outer(bottom$mz, top$mz, function(b, t) abs(b - t) <= tol)
+
+  top$mz <- sapply(seq_len(ncol(idx)), function(i){
+    x <- idx[,i]
+    if (any(x)){
+      bottom$mz[which(x)[1]]
+    } else{
+      top$mz[i]
+    }
+  })
+
+  mz <- unique(c(top$mz, bottom$mz))
+
+  alignment <- cbind(mz, x = top[match(mz, top[, "mz"]), "normalized"],
+                     y = bottom[match(mz, bottom[, "mz"]), "normalized"])
+
+  if (length(unique(alignment[, 1])) != length(alignment[, 1]))
+    warning("the m/z tolerance is set too high")
+
+  alignment[,"y"][is.na(alignment[,"y"])] <- 0
+  alignment[, c("x", "y")][is.na(alignment[, c("x", "y")])] <- 0
+  colnames(alignment) <- c("mz", "intensity.top", "intensity.bottom")
+  alignment
 }

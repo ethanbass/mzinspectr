@@ -1,3 +1,8 @@
+# mzinspectr 0.4.2
+
+* Sped up spectral alignment to further improve speed of spectral library searching (by about 50%).
+* Added additional plot functions for `ms_alignment` objects: `plot.ms_alignment` and `boxplot.ms.alignment`.
+
 # mzinspectr 0.4.1
 
 * Refactored `spectral_similarity` to speed up spectral library search.
