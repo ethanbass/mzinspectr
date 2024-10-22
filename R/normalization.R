@@ -131,9 +131,12 @@ ms_normalize_itsd <- function(x, idx, plot_it = FALSE) {
 
   if (plot_it){
     m <- lm(rowSums(X) ~ X[,idx])
-    plot(rowSums(X) ~ X[,idx], xlab = "[ITSD]", ylab = "total peak area")
+    plot(rowSums(X) ~ X[, idx], xlab = "[ITSD]", ylab = "total peak area")
     abline(m)
-    legend("topright",legend=paste("R2 =", format(summary(m)$r.squared, digits=3)))
+    r2 <- format(summary(m)$r.squared, digits = 3)
+    legend("top",
+           legend = bquote(R^2 == .(r2)),
+           bty = "n")
   }
 
   X.norm <- t(apply(X, 1, function(Xi){
