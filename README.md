@@ -12,8 +12,8 @@ A few functions for analyzing mass spectrometry alignments in R. Currently, MS-D
 It's recommended to install mzinspectr directly from GitHub.
 
 ```
-install.packages("devtools")
-devtools::install_github("https://github.com/ethanbass/mzinspectr/")
+install.packages("remotes")
+remotes::install_github("https://github.com/ethanbass/mzinspectr/")
 ```
 
 It can also be installed via [R Universe](https://ethanbass.r-universe.dev/):
