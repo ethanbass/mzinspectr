@@ -1,8 +1,10 @@
 # mzinspectr
 <!-- badges: start -->
+  [![Last commit](https://img.shields.io/github/last-commit/ethanbass/mzinspectr)]()
+  [![stability-experimental](https://img.shields.io/badge/stability-experimental-orange.svg)](https://github.com/emersion/stability-badges#experimental)
+  <br>
   [![mzinspectr status badge](https://ethanbass.r-universe.dev/badges/mzinspectr)](https://ethanbass.r-universe.dev)
   [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10426253.svg)](https://doi.org/10.5281/zenodo.10426253)
-  [![stability-experimental](https://img.shields.io/badge/stability-experimental-orange.svg)](https://github.com/emersion/stability-badges#experimental)
 <!-- badges: end -->
    
 A few functions for analyzing mass spectrometry alignments in R. Currently, MS-DIAL `.txt` alignment files are supported.
