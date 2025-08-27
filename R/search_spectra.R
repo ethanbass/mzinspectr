@@ -125,7 +125,8 @@ search_msp <- function(x, db, ..., n_results = 10, parallel, mc.cores = 2,
   laplee <- choose_apply_fnc(progress_bar = progress_bar, cl = mc.cores)
   sim <- unlist(lapply(seq_along(db), function(i){
     db[[i]]$Spectra <- as.data.frame(apply(db[[i]]$Spectra, 2, as.numeric))
-    try(spectral_similarity(spec.top = x, spec.bottom = db[[i]]$Spectra, ...), silent = TRUE)
+    try(spectral_similarity(spec.top = x, spec.bottom = db[[i]]$Spectra, ...),
+        silent = TRUE)
   }))
   sim <- suppressWarnings(as.numeric(sim))
   if (what == "scores"){
