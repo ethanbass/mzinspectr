@@ -38,9 +38,11 @@ There are currently several different options for feature normalization, includi
 
 ### Peak identification
 
-There is preliminary support for peak identification by searching a user-provided mass-spectral database through the `ms_search_spectra` function. The database can be loaded into R from an MSP file using the It takes several parameters, including an ms-dial alignment object (`x`), a spectral database (`db`), the column or columns to identify (`cols`), the maximum retention index shift to exclude a match from consideration (`ri_thresh`), the relative weight to give spectral similarity versus retention index similarity (`spectral_weight`), the number of results to return (`n_results`), and the number of cores to use for parallel processing (`mc.cores`).
+There is preliminary support for peak identification by searching a user-provided mass-spectral database through the `ms_search_spectra` function. The database can be loaded into R from an MSP file using the It takes several parameters, including an MS-DIAL alignment object (`x`), a spectral database (`db`), the column or columns to identify (`cols`), the maximum retention index shift to exclude a match from consideration (`ri_thresh`), the relative weight to give spectral similarity versus retention index similarity (`spectral_weight`), the number of results to return (`n_results`), and the number of cores to use for parallel processing (`mc.cores`).
 
 To compile a mass spectral database, I recommend using [mspcompiler](https://github.com/QizhiSu/mspcompiler).
+
+After identifications have been added, the `ms_search_gadget` can be used to 
 
 ### Visualization
 
